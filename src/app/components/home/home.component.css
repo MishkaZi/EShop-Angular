@@ -1,0 +1,25 @@
+aside {
+  border: 1px solid black;
+  height: 100%;
+}
+
+main {
+  border: 1px solid black;
+  height: 100%;
+}
+
+.layout{
+  height: 88vh;
+}
+
+.greeting-main{
+  height: 88vh;
+}
+
+.about-main{
+  height: 70%;
+}
+
+.general-info-aside{
+  height: 30%;
+}
