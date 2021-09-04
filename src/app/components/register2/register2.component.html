@@ -1,0 +1,43 @@
+<div class="container">
+    <h1>Final step:</h1>
+
+    <form #loginForm="ngForm" [formGroup]="formRegistrationSecond">
+        <!-- First Name -->
+        <input type="text" placeholder="Enter your first name" [formControl]="firstName" class="form-control w-auto" />
+        <div class="alert alert-info" role="alert" *ngIf="loginForm.form.invalid">
+            <p *ngIf="firstName.errors?.required">First name is required</p>
+
+        </div>
+
+        <!-- Last Name -->
+        <input class="form-control w-auto" type="text" placeholder="Enter your last name" [formControl]="lastName" />
+        <div class="alert alert-info" role="alert" *ngIf="loginForm.form.invalid">
+            <p *ngIf="lastName.errors?.required">Last name is required</p>
+
+        </div>
+
+        <!-- City -->
+        <select class="form-select w-auto d-block" [formControl]="city">
+            <option *ngFor="let city of cities">{{ city }}</option>
+        </select>
+        <div class="alert alert-info" role="alert" *ngIf="loginForm.form.invalid">
+            <p *ngIf="city.errors?.required">City is required</p>
+
+        </div>
+
+        <!-- Street -->
+        <input type="text" placeholder="Enter your street" [formControl]="street" class="form-control w-auto" />
+        <div class="alert alert-info" role="alert" *ngIf="loginForm.form.invalid">
+            <p *ngIf="street.errors?.required">Street adress required</p>
+
+        </div>
+
+        <button [disabled]="loginForm.form.invalid" class="btn btn-primary mb-3 ms-3" (click)="register()">
+            Submit
+        </button>
+        <button class="btn btn-warning w-auto mb-3 ms-3" routerLink="/register">
+            Previous stage
+        </button>
+
+    </form>
+</div>

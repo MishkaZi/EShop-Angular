@@ -1,0 +1,15 @@
+<div class="card">
+    <img src={{product.image}} class="card-img-top">
+    <div class="card-body">
+        <h3 class="card-title">{{product.productName}}</h3>
+        <div class="row">
+            <div class="col">
+                <label>Price: </label>
+            </div>
+            <div class="col mb-3">
+                {{product.price}}$
+            </div>
+        </div>
+        <button class="add-button btn btn-primary">Add to cart</button><br />
+        <button *ngIf="this.usersService.isAdmin" class="delete-button btn btn-primal">Delete</button>
+    </div>

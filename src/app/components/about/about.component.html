@@ -1,9 +1,9 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
-    <p> Welcome to our tech EShop! Here you can buy apple and other tech without taxes!</p>
+    <p> Welcome to our tech EShop! Here you can buy Apple and other tech without taxes!</p>
 
     <img src="../../../assets/sol81766-apple-family-pm-215273.png" alt="apple products">
 
-    <button class="btn btn-primary">
+    <button [disabled]="!this.stateService.isLoggedIn" class="btn btn-primary" routerLink="/shop">
         Shop now!
     </button>
 

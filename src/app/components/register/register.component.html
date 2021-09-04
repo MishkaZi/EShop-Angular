@@ -1,1 +1,65 @@
-<p>register works!</p>
+<div class="container">
+  <h1>Welcome to first stage of registration:</h1>
+
+  <form #loginForm="ngForm" [formGroup]="firstStepRegister">
+
+    <input type="number" placeholder="Enter your id" class="form-control w-auto mb-3" [formControl]="id" />
+    <div *ngIf="(id.dirty || id.touched) &&id.invalid" class="alert alert-info" role="alert">
+      <p *ngIf="id.errors?.required">
+        ID is required!
+      </p>
+      <p *ngIf="id.errors?.pattern">
+        Id is 9 numbers long!
+      </p>
+    </div>
+
+    <input type="email" placeholder="Enter your email" class="form-control w-auto mb-3" [formControl]="email" />
+    <div *ngIf="(email.dirty || email.touched) &&email.invalid" class="alert alert-info" role="alert">
+      <p *ngIf="email.errors?.required">
+        Email is required!
+      </p>
+      <p *ngIf="email.errors?.pattern">
+        Emails should be email format!
+      </p>
+    </div>
+
+    <input type="password" placeholder="Enter a password" class="form-control w-auto mb-3" [formControl]="password" />
+    <div *ngIf="(password.dirty || password.touched) && password.invalid" class="alert alert-info" role="alert">
+      <p *ngIf="password.errors?.required">
+        Password is required!
+      </p>
+      <p *ngIf="password.errors?.minLength || password.errors?.maxLength">
+        Passwords should be 8-12 characters long!
+      </p>
+    </div>
+
+    <input type="password" placeholder="Confirm your password" class="form-control w-auto mb-3"
+      [formControl]="confirmPassword" />
+    <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.invalid" class="alert alert-info"
+      role="alert">
+      <p *ngIf="confirmPassword.errors?.required ">
+        Password confirmation is required!
+      </p>
+      <p *ngIf="password.errors?.minLength || password.errors?.maxLength">
+        Password confirmation should be 8-12 characters long!
+      </p>
+      <p *ngIf="confirmPassword !== password ">
+        Passwords dont match!
+      </p>
+    </div>
+
+    <div class="row container">
+      <button [disabled]="loginForm.form.invalid" class="btn btn-primary w-auto mb-3" (click)="firstStageRegister()">
+        Next
+      </button>
+      <button class="btn btn-warning w-auto mb-3 ms-3" routerLink="/home">
+        Get back Home
+      </button>
+
+    </div>
+  </form>
+
+  <div *ngIf="errorFromHttpRequest != ''">
+    <!-- <app-alert [error]="errorFromHttpRequest"></app-alert> -->
+  </div>
+</div>

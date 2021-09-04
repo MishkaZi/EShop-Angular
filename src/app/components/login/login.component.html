@@ -1,9 +1,24 @@
-<div class="loginContainer">
-    <form>
-        <input type="text" placeholder="User name" name="username" 
-        [(ngModel)]="userModel.email"><br>
-        <input type="password" placeholder="Password" name="password" 
-        [(ngModel)]="userModel.password"><br>
-        <input type="button" (click)="login()" value="Login" />
-    </form>
+<form *ngIf="!this.shopStateService.isLoggedIn">
+    <div class="mb-3">
+        <input class="form-control" type="text" placeholder="User name" name="username"
+            [(ngModel)]="userDetails.email"><br>
+    </div>
+    <div class="mb-3">
+        <input class="form-control" type="password" placeholder="Password" name="password"
+            [(ngModel)]="userDetails.password"><br>
+    </div>
+    <div class="mb-3">
+        <div class="row">
+            <div class="col">
+                <input class="btn btn-primary" type="button" (click)="login()" value="Login" />
+            </div>
+            <div class="col">
+                <input class="btn btn-warning" type="button" routerLink="/register" value="Register" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div *ngIf="this.shopStateService.isLoggedIn">
+    <p class="container">Thank you for logging in, now you can click on Shop Now button to start shopping!</p>
 </div>

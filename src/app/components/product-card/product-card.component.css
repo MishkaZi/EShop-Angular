@@ -1,0 +1,13 @@
+.card {
+    margin: 1rem;
+    width: 15rem;
+}
+
+img {
+    height: 12rem;
+    width: auto;
+}
+
+.card-title {
+    min-height: 4rem;
+}
