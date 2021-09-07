@@ -18,8 +18,6 @@ export class CustomerGuard implements CanActivate {
     const isLoggedIn = this.shopStateService.isLoggedIn;
     const isAdmin = this.usersService.isAdmin;
 
-    console.log(isLoggedIn, isAdmin);
-
     if (isLoggedIn && !isAdmin) {
       return true;
     }

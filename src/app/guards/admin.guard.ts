@@ -22,6 +22,7 @@ export class AdminGuard implements CanActivate {
     }
 
     this.router.navigateByUrl('/home');
+
     alert('Access Denied');
     return false;
   }

@@ -1,0 +1,13 @@
+.admin-panel {
+    height: 80vh;
+}
+
+.panel {
+    height: 85%;
+    margin-left: 2rem;
+    margin-top: 5rem;
+}
+
+.bottom {
+    height: 15%;
+}

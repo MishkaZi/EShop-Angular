@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private usersService: UsersService,
     private router: Router,
     public shopStateService: ShopStateService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.shopStateService.isLoggedIn) {
@@ -45,6 +45,15 @@ export class LoginComponent implements OnInit {
 
         if (successfulServerRequestData.isAdmin) {
           this.shopStateService.isLoggedIn = true;
+          localStorage.setItem(
+            'userFirstName',
+            successfulServerRequestData.userDetails.firstName
+          );
+          localStorage.setItem(
+            'userId',
+            JSON.stringify(successfulServerRequestData.userDetails.id)
+          );
+
           this.router.navigate(['/admin']);
           return;
         } else {
@@ -67,9 +76,9 @@ export class LoginComponent implements OnInit {
         // serverErrorResponse is the object returned from the ExceptionsHandler
         alert(
           'Error! Status: ' +
-            serverErrorResponse.status +
-            ', Message: ' +
-            serverErrorResponse.message
+          serverErrorResponse.status +
+          ', Message: ' +
+          serverErrorResponse.message
         );
       }
     );

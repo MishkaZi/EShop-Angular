@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-center flex-wrap">
     <div *ngFor="let product of productsService.products" class="containerDiv ">
-        <app-product-card [product]="product"></app-product-card>
+        <app-product-card [product]="product" (click)="updateProduct(product)"></app-product-card>
     </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProductsService } from 'src/app/services/products.service';
 import { ShopStateService } from 'src/app/services/shop-state.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -9,11 +10,12 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  public searchInput: string;
+  public searchInput: string = "";
 
   constructor(
     public usersService: UsersService,
     public shopStateService: ShopStateService,
+    public productsService: ProductsService,
     public router: Router
   ) {
     this.searchInput = '';
@@ -43,14 +45,14 @@ export class HeaderComponent implements OnInit {
   }
 
   public searchProduct(): void {
-    // if (this.searchInput == '') {
-    //   return;
-    // }
-    // let observable = this.productsService.searchProduct(this.searchInput);
-    // observable.subscribe(products => {
-    //   this.productsService.products = products;
-    //   this.searchInput = '';
-    //   this.stateService.isSearching = true;
-    // }, serverErrorResponse => alert(serverErrorResponse.error.error));
+    if (this.searchInput == '') {
+      return;
+    }
+    let observable = this.productsService.searchProduct(this.searchInput);
+    observable.subscribe(products => {
+      this.productsService.products = products;
+      this.searchInput = '';
+
+    }, serverErrorResponse => alert(serverErrorResponse.error.error));
   }
 }

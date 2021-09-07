@@ -17,7 +17,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'shop', component: ShopComponent,
+    path: 'shop', canActivate: [CustomerGuard], component: ShopComponent,
     children: [
       { path: 'order', canActivate: [CustomerGuard], component: OrderComponent }
     ]

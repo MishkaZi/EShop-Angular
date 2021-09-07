@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FirstStepRegisterModel } from '../models/FirstStepRegisterModel';
 import { SuccessfulLoginServerResponse } from '../models/SuccessfulLoginServerResponse';
 import { UserModel } from '../models/UserModel';
 
@@ -13,9 +14,11 @@ export class UsersService {
   public userDetails: UserModel;
   public cities: string[];
   public firstStepRegisterCompleted: boolean;
+  public firstStepUserDetails: FirstStepRegisterModel;
 
   constructor(private http: HttpClient) {
     this.userDetails = new UserModel();
+
 
     //Israely cities by population
     this.cities = [
@@ -53,14 +56,14 @@ export class UsersService {
     });
   }
 
-  public firstStepRegister(userDetails: UserModel): Observable<void> {
-    return this.http.post<void>('http://localhost:3001/users/', userDetails);
+  public firstStepRegister(firstStepUserDetails: UserModel): Observable<void> {
+    return this.http.post<void>('http://localhost:3001/users/', firstStepUserDetails);
   }
 
-  public register(userDetails: UserModel): Observable<void> {
+  public register(secondStepUserDetails: UserModel): Observable<void> {
     return this.http.post<void>(
       'http://localhost:3001/users/register',
-      userDetails
+      secondStepUserDetails
     );
   }
 }

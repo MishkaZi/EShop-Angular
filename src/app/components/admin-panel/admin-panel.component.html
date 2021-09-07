@@ -1,0 +1,37 @@
+<div class="admin-panel">
+    <div class="panel">
+        <!-- Add product -->
+        <form #productAdd="ngForm" [formGroup]="addProduct" *ngIf="this.showAdd || this.shopStateService.updateClicked">
+
+            <label>Image:</label>
+            <input type="text" class="form-control" [formControl]="image" value="{{this.image}}">
+
+            <label>Product Name:</label>
+            <input type="text" class="form-control" [formControl]="productName" />
+
+            <label>Category:</label>
+            <select [formControl]="category" class="form-select d-block">
+                <option *ngFor="let category of this.categories">{{category.categoryName | titlecase}}</option>
+            </select>
+
+            <label>Price:</label>
+            <input type="number" class="form-control" [formControl]="price" />
+
+
+            <button *ngIf="!this.shopStateService.updateClicked" [disabled]="productAdd.form.invalid" class="btn btn-primary mt-2" (click)="addProductFunc()">Add
+                Product</button>
+            <button *ngIf="this.shopStateService.updateClicked" [disabled]="productAdd.form.invalid" class="btn btn-primary mt-2" (click)="updateProductFunc()">Update Product</button>
+        </form>
+
+    </div>
+
+
+    <div class="bottom d-flex flex-column align-items-center">
+        <div class="total-price d-flex">
+        </div>
+        <div class="buttons">
+            <button class="btn btn-primary" (click)="showAddProduct()"><span *ngIf="this.showAdd">Close Add
+                    Product</span><span *ngIf="!this.showAdd"> Add Product</span></button>
+        </div>
+    </div>
+</div>

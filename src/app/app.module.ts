@@ -23,6 +23,8 @@ import { OrderComponent } from './components/order/order.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
     ProductListComponent,
     ProductCardComponent,
     CategoriesComponent,
+    AdminPanelComponent,
+    AddToCartComponent,
   ],
   imports: [
     BrowserModule,
