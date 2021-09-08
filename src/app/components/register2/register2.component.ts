@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./register2.component.css'],
 })
 export class Register2Component implements OnInit {
-  public formRegistrationSecond: FormGroup;
+  public finalStepRegister: FormGroup;
   //Israely cities by population
   public cities: string[] = [
     'Jerusalem',
@@ -39,7 +39,7 @@ export class Register2Component implements OnInit {
     this.street = new FormControl('', Validators.required);
     this.firstName = new FormControl('', Validators.required);
     this.lastName = new FormControl('', Validators.required);
-    this.formRegistrationSecond = new FormGroup({
+    this.finalStepRegister = new FormGroup({
       city: this.city,
       street: this.street,
       firstName: this.firstName,
@@ -47,14 +47,23 @@ export class Register2Component implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {if(this.usersService.firstStepRegisterCompleted === false){
+    this.router.navigate(['/register'])
+  } }
 
   public register(): void {
-    let observable = this.usersService.register(this.usersService.userDetails);
+    const completeUserDetails = {...this.usersService.firstStageUserDetails, ...this.finalStepRegister.value};
+    
+    let observable = this.usersService.register(completeUserDetails);
 
     observable.subscribe(
       () => this.router.navigate(['/home']),
       (serverErrorResponse) => alert(serverErrorResponse.error.error)
     );
+  }
+
+  public previousStage() {
+    this.usersService.firstStepRegisterCompleted = false;
+
   }
 }

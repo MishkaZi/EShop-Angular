@@ -12,6 +12,9 @@ export class ShopStateService {
   public productToUpdate: ProductModel;
   public updateClicked: boolean = false;
 
+
+  public orderPressed: boolean = false;
+
   constructor(private http: HttpClient) {
     this.isLoggedIn = false;
     if (localStorage.getItem('userFirstName')) {

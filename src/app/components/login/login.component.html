@@ -1,16 +1,17 @@
 <form *ngIf="!this.shopStateService.isLoggedIn">
     <div class="mb-3">
-        <input class="form-control" type="text" placeholder="User name" name="username"
+        <input class="form-control" type="text" placeholder="Email..." name="username"
             [(ngModel)]="userDetails.email"><br>
     </div>
     <div class="mb-3">
-        <input class="form-control" type="password" placeholder="Password" name="password"
+        <input class="form-control" type="password" placeholder="Password..."  autocomplete="on" name="password"
             [(ngModel)]="userDetails.password"><br>
     </div>
     <div class="mb-3">
         <div class="row">
             <div class="col">
-                <input class="btn btn-primary" type="button" (click)="login()" value="Login" />
+                <input [disabled]="userDetails.email===''|| userDetails.password=== undefined" autocomplete="on" class="btn btn-primary"
+                    type="button" (click)="login()" value="Login" />
             </div>
             <div class="col">
                 <input class="btn btn-warning" type="button" routerLink="/register" value="Register" />
@@ -20,5 +21,5 @@
 </form>
 
 <div *ngIf="this.shopStateService.isLoggedIn">
-    <p class="container">Thank you for logging in, now you can click on Shop Now button to start shopping!</p>
+    <p class="container">Thank you for logging in, now you can click on <span style="color: #0E6FFD;">Shop Now</span> button to start shopping!</p>
 </div>

@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-body ">
+        <h3 class="card-title ">{{product.productName | titlecase}}</h3>
+        <div class="row ">
+            <div class="col ">
+                <label>Price: </label>
+            </div>
+            <div class="col mb-3 ">
+                {{product.price}}$
+            </div>
+        </div>
+        <button *ngIf="!this.usersService.isAdmin " class="add-button btn btn-danger" (click)="removeFromCart(product)">Remove</button><br />
+    </div>

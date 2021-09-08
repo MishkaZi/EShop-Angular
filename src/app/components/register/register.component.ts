@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ShopStateService } from 'src/app/services/shop-state.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -13,6 +13,8 @@ import { UsersService } from 'src/app/services/users.service';
 export class RegisterComponent implements OnInit {
   public firstStepRegister: FormGroup;
   public passwords: FormGroup;
+
+  public activatedRoute: ActivatedRoute;
 
   public id: FormControl;
   public email: FormControl;
@@ -48,8 +50,8 @@ export class RegisterComponent implements OnInit {
     ]);
 
     this.confirmPassword = new FormControl('', [
-      Validators.min(8),
-      Validators.max(12),
+      Validators.minLength(8),
+      Validators.maxLength(12),
       Validators.required,
     ]);
 
@@ -57,20 +59,29 @@ export class RegisterComponent implements OnInit {
       email: this.email,
       password: this.password,
       id: this.id,
-      confirmPassword: this.confirmPassword,
-    });
+      confirmPassword: this.confirmPassword
+    }
+    );
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { this.usersService.firstStepRegisterCompleted = false; }
 
   public firstStageRegister(): void {
+
     let observable = this.usersService.firstStepRegister(
-      this.usersService.userDetails
+      this.firstStepRegister.value
     );
+
 
     observable.subscribe(
       () => {
         this.errorMessage = '';
+        this.usersService.firstStepRegisterCompleted = true;
+        this.usersService.firstStageUserDetails = this.firstStepRegister.value;
+        console.log(this.usersService.firstStageUserDetails);
+
+        this.router.navigate(['/register/register2'], { relativeTo: this.activatedRoute });
+
       },
       (serverErrorResponse) =>
         (this.errorMessage = serverErrorResponse.error.error)

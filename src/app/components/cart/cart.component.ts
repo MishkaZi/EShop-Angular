@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ShopStateService } from 'src/app/services/shop-state.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
-  constructor() { }
+  constructor(public shopStateService: ShopStateService,public userService: UsersService) { }
 
   ngOnInit(): void {
+  }
+
+  public openOrder() {
+    console.log(this.userService.userDetails);
+    
+    if (this.shopStateService.orderPressed === true) {
+      this.shopStateService.orderPressed = false;
+    }
+    else {
+      this.shopStateService.orderPressed = true;
+
+    }
   }
 
 }

@@ -13,8 +13,9 @@ export class UsersService {
   public userFirstName: string;
   public userDetails: UserModel;
   public cities: string[];
+
   public firstStepRegisterCompleted: boolean;
-  public firstStepUserDetails: FirstStepRegisterModel;
+  public firstStageUserDetails: FirstStepRegisterModel;
 
   constructor(private http: HttpClient) {
     this.userDetails = new UserModel();
@@ -65,5 +66,9 @@ export class UsersService {
       'http://localhost:3001/users/register',
       secondStepUserDetails
     );
+  }
+
+  public getUserDetails() {
+    return this.http.get("http://localhost:3001/users/");
   }
 }

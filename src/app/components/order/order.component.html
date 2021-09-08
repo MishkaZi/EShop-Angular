@@ -1,1 +1,36 @@
-<p>order works!</p>
+<h1>Order:</h1>
+<!-- <app-alert *ngIf="error !==''" [error]="error"></app-alert> -->
+<form #orderPage="ngForm" [formGroup]="orderForm">
+    <h5>Shipping Details: </h5>
+    <label>City:</label>
+    <input type="text" [formControl]="city" class="form-control w-auto"
+        (dblclick)="this.city.patchValue(this.usersDetails.city)" placeholder="Double click to fill with your city" />
+    <label>Street:</label>
+    <input type="text" [formControl]="address" class="form-control w-auto"
+        (dblclick)="this.address.patchValue(this.usersDetails.street)"
+        placeholder="Double click to fill with your address" />
+    <label>Shipping Date:</label>
+    <input type="date" [formControl]="shippingDate" class="form-control w-auto" />
+    <div class="alert alert-info" role="alert"
+        *ngIf="(shippingDate.dirty || shippingDate.touched) && shippingDate.invalid">
+
+        <div *ngIf="shippingDate.errors?.required">
+            Shipping date required!
+        </div>
+    </div>
+
+    <h5 class="mt-3">Payment Details: </h5>
+
+    <label>Creditcard (4 last digits):</label>
+    <input type="number" [formControl]="creditCard" class="form-control w-auto">
+    <div class="alert alert-info" role="alert" *ngIf="(creditCard.dirty || creditCard.touched) && creditCard.invalid">
+        <div *ngIf="creditCard.errors?.required">
+            Credit card is required!
+        </div>
+        <div *ngIf="creditCard.errors?.pattern">
+            Only 4 digits!
+        </div>
+    </div>
+
+    <button [disabled]="orderPage.form.invalid" (click)="makeOrder()" class="btn btn-primary mt-3"> Order</button>
+</form>

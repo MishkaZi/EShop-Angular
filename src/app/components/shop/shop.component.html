@@ -3,12 +3,15 @@
         <app-cart></app-cart>
     </aside>
     <div class="col-9">
-        <div class="categories">
+        <div *ngIf="!this.shopStateService.orderPressed" class="categories">
             <app-categories></app-categories>
         </div>
         <div class="shop-main row">
-            <main class="about-main">
+            <main *ngIf="!this.shopStateService.orderPressed" class="about-main">
                 <app-product-list></app-product-list>
+            </main>
+            <main *ngIf="this.shopStateService.orderPressed" class="order-main">
+                <app-order></app-order>
             </main>
         </div>
     </div>
