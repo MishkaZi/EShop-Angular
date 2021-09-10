@@ -1,7 +1,9 @@
 .cart {
-    height: 85%;
+    height: 82%;
+    overflow-y: scroll;
+    overflow-wrap: normal;
 }
 
 .bottom {
-    height: 15%;
+    height: 12%;
 }

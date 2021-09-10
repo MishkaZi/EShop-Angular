@@ -9,7 +9,6 @@ import { ProductModel } from '../models/ProductModel';
 export class ProductsService {
   products: ProductModel[] = [];
   public productsCategory: number;
-  public productPopUp!: ProductModel;
   constructor(private http: HttpClient) { }
 
 

@@ -6,7 +6,7 @@
         <!-- Greeting -->
         <div class="greeting col-4">
             <h3 *ngIf="router.url === '/home'">Hello <span *ngIf="this.usersService.userFirstName">
-                    {{this.usersService.userFirstName}}</span> <span
+                    {{this.usersService.userFirstName | titlecase}}</span> <span
                     *ngIf="!this.usersService.userFirstName">guest</span> !</h3>
             <!-- Search -->
             <form *ngIf="router.url !== '/home' && router.url !== '/register'&& router.url !== '/register2'"

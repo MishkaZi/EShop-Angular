@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
     observable.subscribe(
       () => {
         this.shopStateService.isLoggedIn = false;
+        this.usersService.isAdmin = false;
 
         this.usersService.userFirstName = '';
         this.usersService.userDetails = {};

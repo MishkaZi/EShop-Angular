@@ -9,7 +9,7 @@ import { UserModel } from '../models/UserModel';
   providedIn: 'root',
 })
 export class UsersService {
-  isAdmin: boolean = false;
+  public isAdmin: boolean = false;
   public userFirstName: string;
   public userDetails: UserModel;
   public cities: string[];

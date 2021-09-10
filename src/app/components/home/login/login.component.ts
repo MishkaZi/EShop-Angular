@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CartModel } from 'src/app/models/CartModel';
 import { SuccessfulLoginServerResponse } from 'src/app/models/SuccessfulLoginServerResponse';
+import { CartsService } from 'src/app/services/carts.service';
 import { UsersService } from 'src/app/services/users.service';
-import { UserModel } from '../../models/UserModel';
-import { ShopStateService } from '../../services/shop-state.service';
+import { UserModel } from '../../../models/UserModel';
+import { ShopStateService } from '../../../services/shop-state.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private router: Router,
-    public shopStateService: ShopStateService
+    public shopStateService: ShopStateService,
+    public cartsService: CartsService,
   ) { }
 
   ngOnInit(): void {
@@ -37,13 +40,17 @@ export class LoginComponent implements OnInit {
     const loginObservable = this.usersService.login(this.userDetails, userId);
     loginObservable.subscribe(
       (successfulServerRequestData: SuccessfulLoginServerResponse) => {
+
         this.usersService.isAdmin = successfulServerRequestData.isAdmin;
-        sessionStorage.setItem(
+
+        localStorage.setItem(
           'token',
           'Bearer ' + successfulServerRequestData.token + ''
         );
 
+        
         if (successfulServerRequestData.isAdmin) {
+
           this.shopStateService.isLoggedIn = true;
           localStorage.setItem(
             'userFirstName',
@@ -58,6 +65,7 @@ export class LoginComponent implements OnInit {
           return;
         } else {
           this.shopStateService.isLoggedIn = true;
+          this.getCart();
           localStorage.setItem(
             'userFirstName',
             successfulServerRequestData.userDetails.firstName
@@ -72,14 +80,29 @@ export class LoginComponent implements OnInit {
         }
       },
       (serverErrorResponse) => {
-        // Reaching here means that the server had failed
-        // serverErrorResponse is the object returned from the ExceptionsHandler
         alert(
           'Error! Status: ' +
           serverErrorResponse.status +
           ', Message: ' +
           serverErrorResponse.message
         );
+      }
+    );
+  }
+
+  private getCart(): void {
+    let observable = this.cartsService.getCart();
+
+    observable.subscribe(
+      (cart) => {
+        console.log(cart);
+
+        cart
+          ? (this.cartsService.cart = cart)
+          : (this.cartsService.cart = new CartModel());
+      },
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error);
       }
     );
   }

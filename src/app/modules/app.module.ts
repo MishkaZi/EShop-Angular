@@ -8,10 +8,10 @@ import { RouterModule } from '@angular/router';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { HomeComponent } from '../components/home/home.component';
-import { LoginComponent } from '../components/login/login.component';
+import { LoginComponent } from '../components/home/login/login.component';
 import { RegisterComponent } from '../components/register/register.component';
-import { AboutComponent } from '../components/about/about.component';
-import { GeneralInfoComponent } from '../components/general-info/general-info.component';
+import { AboutComponent } from '../components/home/about/about.component';
+import { GeneralInfoComponent } from '../components/home/general-info/general-info.component';
 
 import { AuthenticationInterceptor } from '../interceptors/authentication.interceptor';
 import { Register2Component } from '../components/register2/register2.component';
@@ -19,12 +19,11 @@ import { AdminComponent } from '../components/admin/admin.component';
 import { ShopComponent } from '../components/shop/shop.component';
 import { CartComponent } from '../components/cart/cart.component';
 import { OrderComponent } from '../components/order/order.component';
-import { ProductListComponent } from '../components/product-list/product-list.component';
-import { ProductCardComponent } from '../components/product-card/product-card.component';
-import { CategoriesComponent } from '../components/categories/categories.component';
-import { AdminPanelComponent } from '../components/admin-panel/admin-panel.component';
-import { AddToCartComponent } from '../components/add-to-cart/add-to-cart.component';
-import { CartItemComponent } from '../components/cart-item/cart-item.component';
+import { ProductListComponent } from '../components/shop/product-list/product-list.component';
+import { ProductCardComponent } from '../components/shop/product-list/product-card/product-card.component';
+import { CategoriesComponent } from '../components/shop/product-list/categories/categories.component';
+import { AdminPanelComponent } from '../components/admin/admin-panel/admin-panel.component';
+import { CartItemComponent } from '../components/cart/cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,6 @@ import { CartItemComponent } from '../components/cart-item/cart-item.component';
     ProductCardComponent,
     CategoriesComponent,
     AdminPanelComponent,
-    AddToCartComponent,
     CartItemComponent,
   ],
   imports: [

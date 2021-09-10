@@ -1,17 +1,23 @@
+<h1>Cart:</h1>
 <div class="cart">
-    <h1>Cart:</h1>
-    <div class="cart-items">
 
+
+    <div class="d-flex cart-items align-items-center justify-content-center flex-wrap">
+        <div *ngFor="let product of cartsService.cartItems" class="containerDiv ">
+            <app-cart-item [product]="product"></app-cart-item>
+        </div>
     </div>
+
 </div>
 
-<div class="bottom d-flex flex-column align-items-center">
+<div class="bottom d-flex flex-column align-items-center mt-4">
     <div class="total-price d-flex">
         <label for="h5">Total price: </label>
-        <h5 class="ms-3"> 6000$</h5>
+        <h5 class="ms-3">{{ this.cartsService.total }}$</h5>
     </div>
     <div class="buttons ">
-        <button class="btn btn-warning me-3">Clear Cart</button>
-        <button class="btn btn-primary" (click)="openOrder()">Order</button>
+        <button class="btn btn-warning me-3" (click)="emptyCart()">Clear Cart</button>
+        <button [disabled]="this.cartsService.cartItems.length==0" class="btn btn-primary"
+            (click)="openOrder()">Order</button>
     </div>
 </div>

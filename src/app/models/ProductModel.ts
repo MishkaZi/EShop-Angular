@@ -7,5 +7,6 @@ export class ProductModel {
         public price?: number,
         public categoryName?: string,
         public categoryId?: number,
+        public totalPrice?: number
     ) { }
 }

@@ -3,7 +3,7 @@
 
     <img src="../../../assets/sol81766-apple-family-pm-215273.png" alt="apple products">
 
-    <button [disabled]="!this.stateService.isLoggedIn" class="btn btn-primary" routerLink="/shop">
+    <button [disabled]="!this.stateService.isLoggedIn" class="btn btn-primary" (click)="shopNow()" routerLink="/shop">
         Shop now!
     </button>
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CartModel } from 'src/app/models/CartModel';
+import { CartsService } from 'src/app/services/carts.service';
 import { ShopStateService } from 'src/app/services/shop-state.service';
 @Component({
   selector: 'app-general-info',
@@ -9,9 +11,10 @@ export class GeneralInfoComponent implements OnInit {
   public amountOfProducts: number;
   public amountOfOrders: number;
 
-  constructor(public shopStateService: ShopStateService) {}
+  constructor(public shopStateService: ShopStateService, public cartsService: CartsService) { }
 
   ngOnInit(): void {
+  
     if (!this.amountOfOrders) {
       const observable = this.shopStateService.getState();
 

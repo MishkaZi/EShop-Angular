@@ -7,7 +7,7 @@ import { ProductModel } from '../models/ProductModel';
   providedIn: 'root',
 })
 export class ShopStateService {
-  public isLoggedIn: boolean;
+  public isLoggedIn: boolean = false;
 
   public productToUpdate: ProductModel;
   public updateClicked: boolean = false;
@@ -16,7 +16,6 @@ export class ShopStateService {
   public orderPressed: boolean = false;
 
   constructor(private http: HttpClient) {
-    this.isLoggedIn = false;
     if (localStorage.getItem('userFirstName')) {
       this.isLoggedIn = true;
     }

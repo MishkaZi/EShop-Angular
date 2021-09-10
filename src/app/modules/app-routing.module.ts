@@ -7,7 +7,6 @@ import { AdminComponent } from '../components/admin/admin.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { CustomerGuard } from '../guards/customer.guard';
 import { ShopComponent } from '../components/shop/shop.component';
-import { OrderComponent } from '../components/order/order.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
