@@ -6,6 +6,7 @@ import { ProductModel } from 'src/app/models/ProductModel';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ShopStateService } from 'src/app/services/shop-state.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -24,7 +25,7 @@ export class AdminPanelComponent implements OnInit {
   public formData: FormData = new FormData();
   public categories: CategoryModel[];
 
-  constructor(public productService: ProductsService, public categoriesService: CategoriesService, public shopStateService: ShopStateService) {
+  constructor(public productService: ProductsService, public categoriesService: CategoriesService, public shopStateService: ShopStateService, public usersService: UsersService) {
     this.productName = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.productName : "", [Validators.required]);
     this.category = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.categoryId : "", [Validators.required]);
     this.price = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.price : "", [Validators.required, Validators.min(1)]);
@@ -34,6 +35,16 @@ export class AdminPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('userId') === '12345678') {
+      this.usersService.isAdmin = true;
+    }
+    else if (localStorage.getItem('userId') !== '12345678') {
+      this.usersService.isAdmin = false;
+    }
+    else {
+      this.usersService.isAdmin = false;
+    }
+
     let observable = this.categoriesService.getCategories();
 
     observable.subscribe(allCategories => {
@@ -71,6 +82,7 @@ export class AdminPanelComponent implements OnInit {
       this.showAdd = false;
     }, (HttpErrorResponse) => { alert(HttpErrorResponse) })
   }
+
 
   public updateProductFunc() {
     const category = this.categories.find((category: CategoryModel) => category.categoryName === this.addProduct.value.categoryId.toLowerCase()) as CategoryModel;
