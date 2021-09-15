@@ -7,25 +7,26 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css']
+  styleUrls: ['./layout.component.css'],
 })
 export class LayoutComponent implements OnInit {
-
-  constructor(public usersService: UsersService,   public shopStateService: ShopStateService,
-    public cartsService: CartsService,) { }
+  constructor(
+    public usersService: UsersService,
+    public shopStateService: ShopStateService,
+    public cartsService: CartsService
+  ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('userId') === '12345678') {
+    //We have just one admin with specific id
+    if (localStorage.getItem('userId') === '123456789') {
       this.usersService.isAdmin = true;
-    }
-    else if (localStorage.getItem('userId') !== '12345678') {
+    } else if (localStorage.getItem('userId') !== '123456789') {
       this.usersService.isAdmin = false;
-    }
-    else{
+    } else {
       this.usersService.isAdmin = false;
     }
 
-    if (this.shopStateService.isLoggedIn) {
+    if (localStorage.getItem('token')) {
       let observable = this.cartsService.getCart();
 
       observable.subscribe(
@@ -33,6 +34,7 @@ export class LayoutComponent implements OnInit {
           cart
             ? (this.cartsService.cart = cart)
             : (this.cartsService.cart = new CartModel());
+          console.log(this.cartsService.cart);
         },
         (serverErrorResponse) => {
           alert(serverErrorResponse.error.error);
@@ -40,5 +42,4 @@ export class LayoutComponent implements OnInit {
       );
     }
   }
-
 }

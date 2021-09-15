@@ -20,7 +20,6 @@ export class UsersService {
   constructor(private http: HttpClient) {
     this.userDetails = new UserModel();
 
-
     //Israely cities by population
     this.cities = [
       'Jerusalem',
@@ -46,29 +45,35 @@ export class UsersService {
     const loginDetails = id ? { id } : userDetails;
 
     return this.http.post<SuccessfulLoginServerResponse>(
-      'http://localhost:3001/users/login',
+      'https://morning-fjord-26804.herokuapp.com/users/login',
       loginDetails
     );
   }
 
   public logout(token: string): Observable<void> {
-    return this.http.post<void>('http://localhost:3001/users/logout', {
-      token,
-    });
+    return this.http.post<void>(
+      'https://morning-fjord-26804.herokuapp.com/users/logout',
+      {
+        token,
+      }
+    );
   }
 
   public firstStepRegister(firstStepUserDetails: UserModel): Observable<void> {
-    return this.http.post<void>('http://localhost:3001/users/', firstStepUserDetails);
+    return this.http.post<void>(
+      'https://morning-fjord-26804.herokuapp.com/users/',
+      firstStepUserDetails
+    );
   }
 
   public register(secondStepUserDetails: UserModel): Observable<void> {
     return this.http.post<void>(
-      'http://localhost:3001/users/register',
+      'https://morning-fjord-26804.herokuapp.com/users/register',
       secondStepUserDetails
     );
   }
 
   public getUserDetails() {
-    return this.http.get("http://localhost:3001/users/");
+    return this.http.get('https://morning-fjord-26804.herokuapp.com/users/');
   }
 }

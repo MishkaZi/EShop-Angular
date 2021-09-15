@@ -1,11 +1,14 @@
 .card {
-    margin: 1rem;
-    width: 15rem;
-    width: 10rem;
-    height: 14rem;
+  margin: 1rem;
+  width: 15rem;
+  width: 10rem;
+  height: 14rem;
 }
 
-
 .card-title {
-    min-height: 4rem;
+  min-height: 4rem;
+}
+
+.highlighted {
+  background-color: #0acaf0;
 }

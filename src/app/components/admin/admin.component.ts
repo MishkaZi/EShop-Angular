@@ -8,11 +8,10 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
-  constructor(public shopStateService: ShopStateService, public usersService: UsersService,) { }
+  constructor(
+    public shopStateService: ShopStateService,
+    public usersService: UsersService
+  ) {}
 
-  ngOnInit(): void {
-    if (localStorage.getItem('userId') === '12345678') {
-      this.usersService.isAdmin = true;
-    }
-  }
+  ngOnInit(): void {}
 }

@@ -1,0 +1,11 @@
+runtime: nodejs16
+api_version: 1
+threadsafe: true
+
+handlers:
+  - url: /
+    static_files: dist/EShopClient/index.html
+    upload: dist/EShopClient/index.html
+
+  - url: /
+    static_dir: dist/EShopClient

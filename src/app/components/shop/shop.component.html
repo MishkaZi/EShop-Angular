@@ -1,18 +1,18 @@
 <div class="row layout">
-    <aside class="cart-aside col-3 ">
-        <app-cart></app-cart>
-    </aside>
-    <div class="col-9">
-        <div *ngIf="!this.shopStateService.orderPressed" class="categories">
-            <app-categories></app-categories>
-        </div>
-        <div class="shop-main row">
-            <main *ngIf="!this.shopStateService.orderPressed" class="about-main">
-                <app-product-list></app-product-list>
-            </main>
-            <main *ngIf="this.shopStateService.orderPressed" class="order-main">
-                <app-order></app-order>
-            </main>
-        </div>
+  <aside class="cart-aside col-3" *ngIf="this.shopStateService.cartShowHide">
+    <app-cart></app-cart>
+  </aside>
+  <div class="col">
+    <div *ngIf="!this.shopStateService.orderPressed" class="categories">
+      <app-categories></app-categories>
     </div>
+    <div class="shop-main row">
+      <main *ngIf="!this.shopStateService.orderPressed" class="about-main">
+        <app-product-list></app-product-list>
+      </main>
+      <main *ngIf="this.shopStateService.orderPressed" class="order-main">
+        <app-order></app-order>
+      </main>
+    </div>
+  </div>
 </div>

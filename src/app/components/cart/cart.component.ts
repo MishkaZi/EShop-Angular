@@ -8,11 +8,10 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-
-  private searchInput: string;
+  public searchInput: string;
 
   constructor(
     public shopStateService: ShopStateService,
@@ -26,7 +25,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     // There's an open cart for this customer
-    if (this.cartsService.cart?.status=='open') {
+    if (this.cartsService.cart?.status == 'open') {
       this.getCartItems();
 
       // Page was refreshed
@@ -37,46 +36,46 @@ export class CartComponent implements OnInit {
     } else {
       this.createNewCart();
     }
-
   }
 
   // PRIVATES
   private getCart(): void {
     let observable = this.cartsService.getCart();
 
-    observable.subscribe(cart => {
-
-      if (cart.status == "close") {
-        this.createNewCart();
-
-      } else {
-        this.cartsService.cart = cart;
-        this.getCartItems();
-      }
-
-    }, serverErrorResponse => alert(serverErrorResponse.error.error));
-
+    observable.subscribe(
+      (cart) => {
+        if (cart.status == 'close') {
+          this.createNewCart();
+        } else {
+          this.cartsService.cart = cart;
+          this.getCartItems();
+        }
+      },
+      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+    );
   }
 
   private getCartItems(): void {
     let observable = this.cartsService.getCartItems();
 
-    observable.subscribe(cartItems => {
-      
-      this.cartsService.cartItems = cartItems;
-      cartItems.map(product => this.cartsService.total += product.totalPrice);      
-
-    }, serverErrorResponse => alert(serverErrorResponse.error.error));
-
+    observable.subscribe(
+      (cartItems) => {
+        this.cartsService.cartItems = cartItems;
+        cartItems.map(
+          (product) => (this.cartsService.total += product.totalPrice)
+        );
+      },
+      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+    );
   }
 
   private createNewCart(): void {
     let currentDate = new Date();
     let observable = this.cartsService.createCart(currentDate);
 
-    observable.subscribe(cart =>
-      this.cartsService.cart = cart,
-      serverErrorResponse => alert(serverErrorResponse.error.error)
+    observable.subscribe(
+      (cart) => (this.cartsService.cart = cart),
+      (serverErrorResponse) => alert(serverErrorResponse.error.error)
     );
   }
 
@@ -84,13 +83,16 @@ export class CartComponent implements OnInit {
   public emptyCart(): void {
     let observable = this.cartsService.emptyCart();
 
-    observable.subscribe(() => {
-      this.productsService.products.map(product => product.amount != 0 && (product.amount = 0));
-      this.cartsService.cartItems = [];
-      this.cartsService.total = 0;
-
-    }, serverErrorResponse => alert(serverErrorResponse.error.error));
-
+    observable.subscribe(
+      () => {
+        this.productsService.products.map(
+          (product) => product.amount != 0 && (product.amount = 0)
+        );
+        this.cartsService.cartItems = [];
+        this.cartsService.total = 0;
+      },
+      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+    );
   }
 
   // public moveToOrder(): void {
@@ -120,22 +122,20 @@ export class CartComponent implements OnInit {
   public searchInCart(): void {
     let cartItems = this.cartsService.cartItems;
 
-    let results = cartItems.map(item => (
-      item.productName.includes(this.searchInput.toLowerCase()) && item.productName
-    ));
+    let results = cartItems.map(
+      (item) =>
+        item.productName.includes(this.searchInput.toLowerCase()) &&
+        item.productName
+    );
 
     this.cartsService.searchInCartResults = results;
   }
 
-
   public openOrder() {
     if (this.shopStateService.orderPressed === true) {
       this.shopStateService.orderPressed = false;
-    }
-    else {
+    } else {
       this.shopStateService.orderPressed = true;
-
     }
   }
-
 }

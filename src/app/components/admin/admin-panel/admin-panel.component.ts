@@ -11,7 +11,7 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.css']
+  styleUrls: ['./admin-panel.component.css'],
 })
 export class AdminPanelComponent implements OnInit {
   public showAdd: boolean = false;
@@ -25,34 +25,54 @@ export class AdminPanelComponent implements OnInit {
   public formData: FormData = new FormData();
   public categories: CategoryModel[];
 
-  constructor(public productService: ProductsService, public categoriesService: CategoriesService, public shopStateService: ShopStateService, public usersService: UsersService) {
-    this.productName = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.productName : "", [Validators.required]);
-    this.category = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.categoryId : "", [Validators.required]);
-    this.price = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.price : "", [Validators.required, Validators.min(1)]);
-    this.image = new FormControl(this.shopStateService.updateClicked ? this.shopStateService.productToUpdate.image : "", [Validators.required]);
+  constructor(
+    public productsService: ProductsService,
+    public categoriesService: CategoriesService,
+    public shopStateService: ShopStateService,
+    public usersService: UsersService
+  ) {
+    this.productName = new FormControl(
+      this.shopStateService.updateClicked
+        ? this.shopStateService.productToUpdate.productName
+        : '',
+      [Validators.required]
+    );
+    this.category = new FormControl(
+      this.shopStateService.updateClicked
+        ? this.shopStateService.productToUpdate.categoryId
+        : '',
+      [Validators.required]
+    );
+    this.price = new FormControl(
+      this.shopStateService.updateClicked
+        ? this.shopStateService.productToUpdate.price
+        : '',
+      [Validators.required, Validators.min(1)]
+    );
+    this.image = new FormControl(
+      this.shopStateService.updateClicked
+        ? this.shopStateService.productToUpdate.image
+        : '',
+      [Validators.required]
+    );
 
-    this.addProduct = new FormGroup({ productName: this.productName, categoryId: this.category, price: this.price, image: this.image })
+    this.addProduct = new FormGroup({
+      productName: this.productName,
+      categoryId: this.category,
+      price: this.price,
+      image: this.image,
+    });
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('userId') === '12345678') {
-      this.usersService.isAdmin = true;
-    }
-    else if (localStorage.getItem('userId') !== '12345678') {
-      this.usersService.isAdmin = false;
-    }
-    else {
-      this.usersService.isAdmin = false;
-    }
-
     let observable = this.categoriesService.getCategories();
 
-    observable.subscribe(allCategories => {
-      this.categories = allCategories;
-
-    },
-      serverErrorResponse => alert(serverErrorResponse.error.error));
-
+    observable.subscribe(
+      (allCategories) => {
+        this.categories = allCategories;
+      },
+      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+    );
   }
 
   public showAddProduct() {
@@ -61,40 +81,71 @@ export class AdminPanelComponent implements OnInit {
     }
     if (this.showAdd === true) {
       this.showAdd = false;
-
-    }
-    else {
+    } else {
       this.showAdd = true;
     }
-
-
   }
 
   public addProductFunc() {
-    const category = this.categories.find((category: CategoryModel) => category.categoryName === this.addProduct.value.categoryId.toLowerCase()) as CategoryModel;
+    const category = this.categories.find(
+      (category: CategoryModel) =>
+        category.categoryName === this.addProduct.value.categoryId.toLowerCase()
+    ) as CategoryModel;
     this.addProduct.value.categoryId = category.id;
     console.log(this.addProduct.value);
 
-    const observable = this.productService.addProduct(this.addProduct.value);
-    observable.subscribe((HttpResponseData) => {
-      console.log(JSON.stringify(HttpResponseData));
+    const observable = this.productsService.addProduct(this.addProduct.value);
+    observable.subscribe(
+      () => {
+        let observable = this.productsService.getProducts();
 
-      this.showAdd = false;
-    }, (HttpErrorResponse) => { alert(HttpErrorResponse) })
+        observable.subscribe(
+          (productsList) => {
+            this.productsService.products = productsList;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+
+        this.showAdd = false;
+      },
+      (HttpErrorResponse) => {
+        alert(HttpErrorResponse);
+      }
+    );
   }
 
-
   public updateProductFunc() {
-    const category = this.categories.find((category: CategoryModel) => category.categoryName === this.addProduct.value.categoryId.toLowerCase()) as CategoryModel;
+    const category = this.categories.find(
+      (category: CategoryModel) =>
+        category.categoryName === this.addProduct.value.categoryId.toLowerCase()
+    ) as CategoryModel;
     this.addProduct.value.categoryId = category.id;
     const productToSend: ProductModel = { ...this.addProduct.value };
-    Object.assign(productToSend, { id: this.shopStateService.productToUpdate.id });
+    Object.assign(productToSend, {
+      id: this.shopStateService.productToUpdate.id,
+    });
 
-    const observable = this.productService.updateProduct(productToSend);
-    observable.subscribe((HttpResponseData) => {
-      console.log(JSON.stringify(HttpResponseData));
+    const observable = this.productsService.updateProduct(productToSend);
+    observable.subscribe(
+      () => {
+        let observable = this.productsService.getProducts();
 
-      this.shopStateService.updateClicked = false;
-    }, (HttpErrorResponse) => { alert(HttpErrorResponse) })
+        observable.subscribe(
+          (productsList) => {
+            this.productsService.products = productsList;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+
+        this.shopStateService.updateClicked = false;
+      },
+      (HttpErrorResponse) => {
+        alert(HttpErrorResponse);
+      }
+    );
   }
 }

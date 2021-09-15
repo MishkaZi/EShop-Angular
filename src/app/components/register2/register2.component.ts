@@ -30,6 +30,8 @@ export class Register2Component implements OnInit {
   public firstName: FormControl;
   public lastName: FormControl;
 
+  public error: string = '';
+
   constructor(
     public stateService: ShopStateService,
     public usersService: UsersService,
@@ -47,23 +49,27 @@ export class Register2Component implements OnInit {
     });
   }
 
-  ngOnInit(): void {if(this.usersService.firstStepRegisterCompleted === false){
-    this.router.navigate(['/register'])
-  } }
+  ngOnInit(): void {
+    if (this.usersService.firstStepRegisterCompleted === false) {
+      this.router.navigate(['/register']);
+    }
+  }
 
   public register(): void {
-    const completeUserDetails = {...this.usersService.firstStageUserDetails, ...this.finalStepRegister.value};
-    
+    const completeUserDetails = {
+      ...this.usersService.firstStageUserDetails,
+      ...this.finalStepRegister.value,
+    };
+
     let observable = this.usersService.register(completeUserDetails);
 
     observable.subscribe(
       () => this.router.navigate(['/home']),
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => (this.error = serverErrorResponse.error.error)
     );
   }
 
   public previousStage() {
     this.usersService.firstStepRegisterCompleted = false;
-
   }
 }

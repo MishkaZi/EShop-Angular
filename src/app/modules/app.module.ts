@@ -24,6 +24,7 @@ import { ProductCardComponent } from '../components/shop/product-list/product-ca
 import { CategoriesComponent } from '../components/shop/product-list/categories/categories.component';
 import { AdminPanelComponent } from '../components/admin/admin-panel/admin-panel.component';
 import { CartItemComponent } from '../components/cart/cart-item/cart-item.component';
+import { ErrorComponent } from '../components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { CartItemComponent } from '../components/cart/cart-item/cart-item.compon
     CategoriesComponent,
     AdminPanelComponent,
     CartItemComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

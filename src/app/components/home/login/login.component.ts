@@ -14,13 +14,13 @@ import { ShopStateService } from '../../../services/shop-state.service';
 })
 export class LoginComponent implements OnInit {
   userDetails: UserModel = new UserModel(0, '');
-
+  public error: string = '';
   constructor(
     private usersService: UsersService,
     private router: Router,
     public shopStateService: ShopStateService,
-    public cartsService: CartsService,
-  ) { }
+    public cartsService: CartsService
+  ) {}
 
   ngOnInit(): void {
     if (!this.shopStateService.isLoggedIn) {
@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
     const loginObservable = this.usersService.login(this.userDetails, userId);
     loginObservable.subscribe(
       (successfulServerRequestData: SuccessfulLoginServerResponse) => {
-
         this.usersService.isAdmin = successfulServerRequestData.isAdmin;
 
         localStorage.setItem(
@@ -48,9 +47,7 @@ export class LoginComponent implements OnInit {
           'Bearer ' + successfulServerRequestData.token + ''
         );
 
-        
         if (successfulServerRequestData.isAdmin) {
-
           this.shopStateService.isLoggedIn = true;
           localStorage.setItem(
             'userFirstName',
@@ -80,12 +77,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (serverErrorResponse) => {
-        alert(
-          'Error! Status: ' +
-          serverErrorResponse.status +
-          ', Message: ' +
-          serverErrorResponse.message
-        );
+        this.error = serverErrorResponse.error.error;
       }
     );
   }

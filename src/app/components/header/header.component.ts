@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  public searchInput: string = "";
+  public searchInput: string = '';
 
   constructor(
     public usersService: UsersService,
@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit {
 
         this.usersService.userFirstName = '';
         this.usersService.userDetails = {};
+        this.shopStateService.orderPressed = false;
 
         localStorage.clear();
         this.router.navigate(['/home']);
@@ -50,10 +51,12 @@ export class HeaderComponent implements OnInit {
       return;
     }
     let observable = this.productsService.searchProduct(this.searchInput);
-    observable.subscribe(products => {
-      this.productsService.products = products;
-      this.searchInput = '';
-
-    }, serverErrorResponse => alert(serverErrorResponse.error.error));
+    observable.subscribe(
+      (products) => {
+        this.productsService.products = products;
+        this.searchInput = '';
+      },
+      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+    );
   }
 }

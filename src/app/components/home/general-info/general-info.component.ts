@@ -11,15 +11,19 @@ export class GeneralInfoComponent implements OnInit {
   public amountOfProducts: number;
   public amountOfOrders: number;
 
-  constructor(public shopStateService: ShopStateService, public cartsService: CartsService) { }
+  constructor(
+    public shopStateService: ShopStateService,
+    public cartsService: CartsService
+  ) {}
 
   ngOnInit(): void {
-  
     if (!this.amountOfOrders) {
       const observable = this.shopStateService.getState();
 
       observable.subscribe(
         (shopState) => {
+          console.log(shopState);
+
           shopState = shopState.map((item: number) => Object.values(item)[0]);
           this.amountOfProducts = shopState[0];
           this.amountOfOrders = shopState[1];

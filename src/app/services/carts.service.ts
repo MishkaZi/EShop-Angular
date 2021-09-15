@@ -5,7 +5,7 @@ import { CartModel } from '../models/CartModel';
 import { ProductModel } from '../models/ProductModel';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartsService {
   public cart: CartModel;
@@ -21,31 +21,48 @@ export class CartsService {
 
   // CART
   public getCart(): Observable<CartModel> {
-    return this.http.get<CartModel>("http://localhost:3001/carts");
+    return this.http.get<CartModel>(
+      'https://morning-fjord-26804.herokuapp.com/carts'
+    );
   }
 
   public createCart(currentDate: Date): Observable<CartModel> {
-    return this.http.post<CartModel>("http://localhost:3001/carts", { currentDate });
+    return this.http.post<CartModel>(
+      'https://morning-fjord-26804.herokuapp.com/carts',
+      { currentDate }
+    );
   }
 
   // CART ITEMS
   public getCartItems(): Observable<ProductModel[]> {
-    return this.http.get<ProductModel[]>("http://localhost:3001/carts/items");
+    return this.http.get<ProductModel[]>(
+      'https://morning-fjord-26804.herokuapp.com/carts/items'
+    );
   }
 
   public addToCart(purchasedProduct: ProductModel): Observable<ProductModel> {
-    return this.http.post<ProductModel>("http://localhost:3001/carts/items", purchasedProduct);
+    return this.http.post<ProductModel>(
+      'https://morning-fjord-26804.herokuapp.com/carts/items',
+      purchasedProduct
+    );
   }
 
   public updateOnCart(productToUpdate: ProductModel): Observable<ProductModel> {
-    return this.http.put<ProductModel>("http://localhost:3001/carts/items", productToUpdate);
+    return this.http.put<ProductModel>(
+      'https://morning-fjord-26804.herokuapp.com/carts/items',
+      productToUpdate
+    );
   }
 
   public removeFromCart(product: ProductModel): Observable<void> {
-    return this.http.delete<void>("http://localhost:3001/carts/items/" + product.id);
+    return this.http.delete<void>(
+      'https://morning-fjord-26804.herokuapp.com/carts/items/' + product.id
+    );
   }
 
   public emptyCart(): Observable<void> {
-    return this.http.delete<void>("http://localhost:3001/carts/items");
+    return this.http.delete<void>(
+      'https://morning-fjord-26804.herokuapp.com/carts/items'
+    );
   }
 }

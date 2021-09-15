@@ -4,35 +4,44 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ProductModel } from '../models/ProductModel';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductsService {
   products: ProductModel[] = [];
   public productsCategory: number;
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   public getProducts(): Observable<ProductModel[]> {
-
-    return this.http.get<ProductModel[]>('http://localhost:3001/products');
+    return this.http.get<ProductModel[]>(
+      'https://morning-fjord-26804.herokuapp.com/products'
+    );
   }
 
-  public getProductsByCategory(productsCategory?: number): Observable<ProductModel[]> {
-
-    return this.http.get<ProductModel[]>('http://localhost:3001/categories/' + productsCategory);
+  public getProductsByCategory(
+    productsCategory?: number
+  ): Observable<ProductModel[]> {
+    return this.http.get<ProductModel[]>(
+      'https://morning-fjord-26804.herokuapp.com/categories/' + productsCategory
+    );
   }
 
   public addProduct(product: ProductModel) {
-    return this.http.post<ProductModel>("http://localhost:3001/products", product);
+    return this.http.post<ProductModel>(
+      'https://morning-fjord-26804.herokuapp.com/products',
+      product
+    );
   }
 
   public updateProduct(product: ProductModel) {
-    return this.http.put<ProductModel>("http://localhost:3001/products", product);
+    return this.http.put<ProductModel>(
+      'https://morning-fjord-26804.herokuapp.com/products',
+      product
+    );
   }
 
   searchProduct(searchInput: string): Observable<ProductModel[]> {
-    return this.http.get<ProductModel[]>("http://localhost:3001/products/search/" + searchInput);
+    return this.http.get<ProductModel[]>(
+      'https://morning-fjord-26804.herokuapp.com/products/search/' + searchInput
+    );
   }
-
-
 }

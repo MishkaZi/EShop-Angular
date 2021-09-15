@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   public errorFromHttpRequest: string = '';
 
   public shopState: string;
-  public errorMessage: string;
+  public error: string = '';
 
   constructor(
     public stateService: ShopStateService,
@@ -38,9 +38,7 @@ export class RegisterComponent implements OnInit {
 
     this.email = new FormControl('', [
       Validators.required,
-      Validators.pattern(
-        "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
-      ),
+      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
     ]);
 
     this.password = new FormControl('', [
@@ -59,33 +57,31 @@ export class RegisterComponent implements OnInit {
       email: this.email,
       password: this.password,
       id: this.id,
-      confirmPassword: this.confirmPassword
-    }
-    );
+      confirmPassword: this.confirmPassword,
+    });
   }
 
-  ngOnInit(): void { this.usersService.firstStepRegisterCompleted = false; }
+  ngOnInit(): void {
+    this.usersService.firstStepRegisterCompleted = false;
+  }
 
   public firstStageRegister(): void {
-
     let observable = this.usersService.firstStepRegister(
       this.firstStepRegister.value
     );
 
-
     observable.subscribe(
       () => {
-        this.errorMessage = '';
+        this.error = '';
         this.usersService.firstStepRegisterCompleted = true;
         this.usersService.firstStageUserDetails = this.firstStepRegister.value;
         console.log(this.usersService.firstStageUserDetails);
 
-        this.router.navigate(['/register/register2'], { relativeTo: this.activatedRoute });
-
+        this.router.navigate(['/register/register2'], {
+          relativeTo: this.activatedRoute,
+        });
       },
-      (serverErrorResponse) =>
-        (this.errorMessage = serverErrorResponse.error.error)
+      (serverErrorResponse) => (this.error = serverErrorResponse.error.error)
     );
-
   }
 }

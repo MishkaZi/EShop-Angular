@@ -1,18 +1,18 @@
 <div>
-    <p>
-        <span class="amount">{{amountOfProducts}}</span> products in
-        our store.
-    </p>
-    <p>
-        <span class="amount">{{amountOfOrders}}</span> orders submitted in our
-        store.
-    </p>
-    <div class="cart-info" *ngIf="this.shopStateService.isLoggedIn">
-        <h3 *ngIf="this.cartsService.cart.status == 'open'">
-            You have an open cart from {{ this.cartsService.cart.createDate | date: 'dd/MM/yyyy'}}
-        </h3>
-        <h3 *ngIf="this.cartsService.cart.status == 'close'">
-            Your last purchase was on {{ this.cartsService.cart.createDate | date: 'dd/MM/yyyy'}}
-        </h3>
-    </div>
+  <p>
+    <span class="amount">{{amountOfProducts}}</span> products in
+    our store.
+  </p>
+  <p>
+    <span class="amount">{{amountOfOrders}}</span> orders submitted in our
+    store.
+  </p>
+  <div class="cart-info" *ngIf="this.shopStateService.isLoggedIn">
+    <h3 *ngIf="this.cartsService.cart.status == 'open'">
+      You have an open cart from {{ this.cartsService.cart.createDate | date: 'dd/MM/yyyy'}}
+    </h3>
+    <h3 *ngIf="this.cartsService.cart.status == 'close'">
+      Your last purchase was on {{ this.cartsService.cart.createDate | date: 'dd/MM/yyyy'}}
+    </h3>
+  </div>
 </div>
