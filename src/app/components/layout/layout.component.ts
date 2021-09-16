@@ -10,6 +10,9 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./layout.component.css'],
 })
 export class LayoutComponent implements OnInit {
+  public error: string = '';
+
+
   constructor(
     public usersService: UsersService,
     public shopStateService: ShopStateService,
@@ -18,9 +21,9 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     //We have just one admin with specific id
-    if (localStorage.getItem('userId') === '123456789') {
+    if (localStorage.getItem('userFirstName') === 'admin') {
       this.usersService.isAdmin = true;
-    } else if (localStorage.getItem('userId') !== '123456789') {
+    } else if (localStorage.getItem('userFirstName') !== 'admin') {
       this.usersService.isAdmin = false;
     } else {
       this.usersService.isAdmin = false;
@@ -34,11 +37,10 @@ export class LayoutComponent implements OnInit {
           cart
             ? (this.cartsService.cart = cart)
             : (this.cartsService.cart = new CartModel());
-          console.log(this.cartsService.cart);
         },
         (serverErrorResponse) => {
-          alert(serverErrorResponse.error.error);
-        }
+        this.error = serverErrorResponse.error.error;
+      }
       );
     }
   }

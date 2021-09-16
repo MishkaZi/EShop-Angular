@@ -1,4 +1,5 @@
 <h1>Cart:</h1>
+<app-error [error]="error" *ngIf="error!==''"></app-error>
 <div class="cart ">
   <div class="search-wrapper d-flex justify-content-center " *ngIf=" this.shopStateService.orderPressed">
     <input [(ngModel)]="searchInput" (ngModelChange)="searchInCart()" class="form-control w-auto" type="text"
@@ -20,7 +21,7 @@
     <label for="h5">Total price: </label>
     <h5 class="ms-3">{{ this.cartsService.total }}$</h5>
   </div>
-  <div class="buttons ">
+  <div class="buttons d-flex flex-row align-items-center">
     <button class="btn btn-warning me-3" [disabled]="this.shopStateService.orderPressed" (click)="emptyCart()">Clear
       Cart</button>
     <button [disabled]="this.cartsService.cartItems.length==0" class="btn btn-primary" (click)="openOrder()"><span

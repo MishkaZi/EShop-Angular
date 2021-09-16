@@ -25,6 +25,9 @@ export class AdminPanelComponent implements OnInit {
   public formData: FormData = new FormData();
   public categories: CategoryModel[];
 
+  public error: string = '';
+
+
   constructor(
     public productsService: ProductsService,
     public categoriesService: CategoriesService,
@@ -71,7 +74,7 @@ export class AdminPanelComponent implements OnInit {
       (allCategories) => {
         this.categories = allCategories;
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
     );
   }
 
@@ -103,16 +106,12 @@ export class AdminPanelComponent implements OnInit {
           (productsList) => {
             this.productsService.products = productsList;
           },
-          (error) => {
-            console.log(error);
-          }
+          (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
         );
 
         this.showAdd = false;
       },
-      (HttpErrorResponse) => {
-        alert(HttpErrorResponse);
-      }
+      (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
     );
   }
 
@@ -136,16 +135,12 @@ export class AdminPanelComponent implements OnInit {
           (productsList) => {
             this.productsService.products = productsList;
           },
-          (error) => {
-            console.log(error);
-          }
+          (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
         );
 
         this.shopStateService.updateClicked = false;
       },
-      (HttpErrorResponse) => {
-        alert(HttpErrorResponse);
-      }
+      (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
     );
   }
 }

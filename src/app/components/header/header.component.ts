@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { OrdersService } from 'src/app/services/orders.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ShopStateService } from 'src/app/services/shop-state.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -11,11 +12,14 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class HeaderComponent implements OnInit {
   public searchInput: string = '';
+  public error: string = '';
+
 
   constructor(
     public usersService: UsersService,
     public shopStateService: ShopStateService,
     public productsService: ProductsService,
+    public ordersService: OrdersService,
     public router: Router
   ) {
     this.searchInput = '';
@@ -42,7 +46,9 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/home']);
       },
 
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
@@ -56,7 +62,9 @@ export class HeaderComponent implements OnInit {
         this.productsService.products = products;
         this.searchInput = '';
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 }

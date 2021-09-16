@@ -8,7 +8,7 @@ import { SuccessfulLoginServerResponse } from '../models/SuccessfulLoginServerRe
   providedIn: 'root',
 })
 export class OrdersService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public order(
     orderDetails: OrderDetailsModel
@@ -19,7 +19,7 @@ export class OrdersService {
     );
   }
 
-  public getOrdersShipDates(): Observable<any[]> {
+  public getShippingDates(): Observable<any[]> {
     return this.http.get<any[]>(
       'https://morning-fjord-26804.herokuapp.com/orders'
     );

@@ -1,3 +1,4 @@
+<app-error [error]="error" *ngIf="error!==''"></app-error>
 <div class="card">
   <div class="card-body ">
     <h3 class="card-title " [ngClass]="highlightSearchResults()">{{product.productName | titlecase}}</h3>

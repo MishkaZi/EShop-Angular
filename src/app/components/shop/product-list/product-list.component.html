@@ -1,4 +1,5 @@
 <div class="d-flex align-items-center justify-content-center flex-wrap">
+    <app-error [error]="error" *ngIf="error!==''"></app-error>
     <div *ngFor="let product of productsService.products" class="containerDiv ">
         <app-product-card [product]="product" (click)="updateProduct(product)"></app-product-card>
     </div>

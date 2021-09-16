@@ -1,5 +1,5 @@
 <h1>Order:</h1>
-<!-- <app-alert *ngIf="error !==''" [error]="error"></app-alert> -->
+<app-error [error]="error" *ngIf="error!==''"></app-error>
 <form #orderPage="ngForm" [formGroup]="orderForm">
   <h5>Shipping Details: </h5>
   <label>City:</label>
@@ -10,7 +10,8 @@
     (dblclick)="this.address.patchValue(this.usersDetails.street)"
     placeholder="Double click to fill with your address" />
   <label>Shipping Date:</label>
-  <input type="date" [formControl]="shippingDate" class="form-control w-auto" />
+
+  <input type="date" [formControl]="shippingDate" min="{{today}}" class="form-control w-auto" (change)="checkDate()" />
   <div class="alert alert-info" role="alert"
     *ngIf="(shippingDate.dirty || shippingDate.touched) && shippingDate.invalid">
 
@@ -18,6 +19,10 @@
       Shipping date required!
     </div>
   </div>
+  <div class="alert alert-info" role="alert" *ngIf="notAvailableDate">
+    This date have too much orders, please choose less busy day please!
+  </div>
+
 
   <h5 class="mt-3">Payment Details: </h5>
 
@@ -32,24 +37,28 @@
     </div>
   </div>
 
-  <button [disabled]="orderPage.form.invalid" (click)="makeOrder()" class="btn btn-primary mt-3" data-bs-toggle="modal"
-    [attr.data-bs-target]="'#product'"> Order</button>
+  <button [disabled]="orderPage.form.invalid || notAvailableDate" (click)="makeOrder()" class="btn btn-primary mt-3"
+    data-bs-toggle="modal" [attr.data-bs-target]="'#modal'"> Order</button>
 </form>
 
 
 <!-- Modal -->
-<div class="modal fade" id="{{'product'}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="{{'modal'}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content ">
       <div class="modal-header">
+        <app-error [error]="error" *ngIf="error!==''"></app-error>
         <h5 class="modal-title" id="exampleModalLabel">Thanks for ordering!</h5>
       </div>
       <div class="modal-body row">
-        <p class="col"><a [href]="receiptTrustedUrl" target="_blank">Here</a> you can download your order receipt!</p>
+        <p class="col"><a [href]="receiptTrustedUrl" download="{{this.orderDetails.orderDate}}.txt">Here</a> you can
+          download your
+          order receipt!</p>
 
       </div>
 
-      <div class="modal-footer">
+      <div class=" modal-footer">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
 
       </div>

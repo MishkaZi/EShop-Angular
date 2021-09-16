@@ -10,6 +10,9 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+  public error: string = '';
+
+  
   constructor(public productsService: ProductsService, public userService: UsersService, public shopStateService: ShopStateService) { }
 
 
@@ -20,8 +23,8 @@ export class ProductListComponent implements OnInit {
       (productsList) => {
         this.productsService.products = productsList;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
       }
     );
   }

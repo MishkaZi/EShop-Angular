@@ -28,7 +28,7 @@
       <p *ngIf="password.errors?.required">
         Password is required!
       </p>
-      <p *ngIf="password.errors?.minLength || password.errors?.maxLength">
+      <p *ngIf="!password.errors?.minLength || !password.errors?.maxLength">
         Passwords should be 8-12 characters long!
       </p>
     </div>
@@ -40,7 +40,7 @@
       <p *ngIf="confirmPassword.errors?.required ">
         Password confirmation is required!
       </p>
-      <p *ngIf="!password.errors?.minLength || password.errors?.maxLength">
+      <p *ngIf="!password.errors?.minLength || !password.errors?.maxLength">
         Password confirmation should be 8-12 characters long!
       </p>
       <p *ngIf="confirmPassword !== password ">

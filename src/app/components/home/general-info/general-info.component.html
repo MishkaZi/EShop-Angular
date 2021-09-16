@@ -1,4 +1,5 @@
 <div>
+  <app-error [error]="error" *ngIf="error!==''"></app-error>
   <p>
     <span class="amount">{{amountOfProducts}}</span> products in
     our store.
@@ -7,7 +8,7 @@
     <span class="amount">{{amountOfOrders}}</span> orders submitted in our
     store.
   </p>
-  <div class="cart-info" *ngIf="this.shopStateService.isLoggedIn">
+  <div class="cart-info" *ngIf="this.shopStateService.isLoggedIn && this.cartsService.cart!==undefined">
     <h3 *ngIf="this.cartsService.cart.status == 'open'">
       You have an open cart from {{ this.cartsService.cart.createDate | date: 'dd/MM/yyyy'}}
     </h3>

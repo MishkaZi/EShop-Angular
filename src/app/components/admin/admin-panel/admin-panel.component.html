@@ -1,5 +1,6 @@
 <div class="admin-panel">
   <div class="panel">
+    <app-error [error]="error" *ngIf="error!==''"></app-error>
     <!-- Add product -->
     <form #productAdd="ngForm" [formGroup]="addProduct" *ngIf="this.showAdd || this.shopStateService.updateClicked">
 

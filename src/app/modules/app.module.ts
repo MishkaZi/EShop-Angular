@@ -25,6 +25,10 @@ import { CategoriesComponent } from '../components/shop/product-list/categories/
 import { AdminPanelComponent } from '../components/admin/admin-panel/admin-panel.component';
 import { CartItemComponent } from '../components/cart/cart-item/cart-item.component';
 import { ErrorComponent } from '../components/error/error.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -53,7 +57,11 @@ import { ErrorComponent } from '../components/error/error.component';
     FormsModule,
     HttpClientModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSliderModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+     MatNativeDateModule
   ],
   providers: [
     {

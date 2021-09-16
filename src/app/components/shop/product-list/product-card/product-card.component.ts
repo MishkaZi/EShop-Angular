@@ -14,15 +14,16 @@ export class ProductCardComponent implements OnInit {
   public amount: number = 0;
   @Input() product: ProductModel = new ProductModel();
   public productToAdd: ProductModel;
+  public error: string = '';
 
   constructor(
     public cartsService: CartsService,
     public usersService: UsersService,
     public productsService: ProductsService,
     public shopStateService: ShopStateService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   public addToCart() {
     if (this.amount < 0) {
@@ -62,10 +63,14 @@ export class ProductCardComponent implements OnInit {
               this.cartsService.cartItems = cartItems;
               this.cartsService.total += newProductInCart.totalPrice;
             },
-            (serverErrorResponse) => alert(serverErrorResponse.error.error)
+            (serverErrorResponse) => {
+              this.error = serverErrorResponse.error.error;
+            }
           );
         },
-        (serverErrorResponse) => alert(serverErrorResponse.error.error)
+        (serverErrorResponse) => {
+          this.error = serverErrorResponse.error.error;
+        }
       );
     } else if (ifInCart) {
       let productToAdd = {
@@ -87,10 +92,14 @@ export class ProductCardComponent implements OnInit {
               this.cartsService.cartItems = cartItems;
               this.cartsService.total += newProductInCart.totalPrice;
             },
-            (serverErrorResponse) => alert(serverErrorResponse.error.error)
+            (serverErrorResponse) => {
+              this.error = serverErrorResponse.error.error;
+            }
           );
         },
-        (serverErrorResponse) => alert(serverErrorResponse.error.error)
+        (serverErrorResponse) => {
+          this.error = serverErrorResponse.error.error;
+        }
       );
     }
   }

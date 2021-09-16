@@ -14,6 +14,9 @@ export class CartItemComponent implements OnInit {
   @Input() product: ProductModel = new ProductModel();
   @Input() searchInput: string;
 
+  public error: string = '';
+
+
   constructor(
     public shopStateService: ShopStateService,
     public usersService: UsersService,
@@ -36,10 +39,10 @@ export class CartItemComponent implements OnInit {
             this.cartsService.total =
               this.cartsService.total - product.totalPrice;
           },
-          (serverErrorResponse) => alert(serverErrorResponse.error.error)
+          (serverErrorResponse) =>  { this.error = serverErrorResponse.error.error;}
         );
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) =>   {this.error = serverErrorResponse.error.error;}
     );
   }
 

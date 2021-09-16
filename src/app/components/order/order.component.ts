@@ -24,7 +24,14 @@ export class OrderComponent implements OnInit {
   public creditCard!: FormControl;
 
   public orderDetails: OrderDetailsModel = {};
+  public occupiedDates: { shippingDate: string }[] = [];
   public receiptTrustedUrl: {};
+
+  public notAvailableDate: boolean = false;
+  public today: string = '';
+
+  public error: string = '';
+
 
   constructor(
     public usersService: UsersService,
@@ -33,22 +40,38 @@ export class OrderComponent implements OnInit {
     public shopStateService: ShopStateService,
     public router: Router,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    let observable = this.usersService.getUserDetails();
+    var today = new Date().toISOString().split('T')[0];
+    this.today = today;
 
-    observable.subscribe(
+
+    //Get busy shipping dates
+    let observable = this.ordersService.getShippingDates();
+
+    observable.subscribe(occupiedDates => {
+
+      occupiedDates.map(date => this.occupiedDates.push(date))
+    }, (serverErrorResponse) => {
+      this.error = serverErrorResponse.error.error;
+    });
+
+    //Get users details
+    let observable2 = this.usersService.getUserDetails();
+
+    observable2.subscribe(
       (usersDetails) => {
         this.usersDetails = usersDetails;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
       }
     );
 
     this.address = new FormControl('', Validators.required);
     this.city = new FormControl('', Validators.required);
+
     this.shippingDate = new FormControl('', Validators.required);
     this.creditCard = new FormControl('', [
       Validators.pattern('[0-9]{4}'),
@@ -62,10 +85,20 @@ export class OrderComponent implements OnInit {
     });
   }
 
+  public checkDate() {
+    let pickedDate = this.orderForm.value.shippingDate.toString();
+
+    if (this.occupiedDates.some(date => date.shippingDate.slice(0, 10) === pickedDate)) {
+      this.notAvailableDate = true;
+    }
+    else {
+      this.notAvailableDate = false;
+    }
+  }
+
+
   public makeOrder() {
     const dateNow = new Date();
-    // var date = dateNow.getFullYear()+(dateNow.getMonth()+1)+dateNow.getDate();
-
     let order: OrderDetailsModel = {
       finalPrice: this.cartsService.total,
       shippingCity: this.orderForm.value.city,
@@ -85,7 +118,9 @@ export class OrderComponent implements OnInit {
         this.createReceiptFile();
         // this.shopStateService.orderPressed = false;
       },
-      (serverErrorResponse) => alert(serverErrorResponse)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
@@ -93,9 +128,8 @@ export class OrderComponent implements OnInit {
     let receipt = `Order date: ${this.orderDetails.orderDate}: \n\n`;
 
     for (let item of this.cartsService.cartItems) {
-      receipt += `${item.productName.toUpperCase()} - Amount: ${
-        item.amount
-      } - Price: ${item.totalPrice}$ \n`;
+      receipt += `${item.productName.toUpperCase()} - Amount: ${item.amount
+        } - Price: ${item.totalPrice}$ \n`;
     }
 
     receipt +=

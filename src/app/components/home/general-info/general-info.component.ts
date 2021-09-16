@@ -11,24 +11,42 @@ export class GeneralInfoComponent implements OnInit {
   public amountOfProducts: number;
   public amountOfOrders: number;
 
+  public error: string = '';
+
+
   constructor(
     public shopStateService: ShopStateService,
     public cartsService: CartsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('token')) {
+      let observable = this.cartsService.getCart();
+
+      observable.subscribe(
+        (cart) => {
+          cart
+            ? (this.cartsService.cart = cart)
+            : (this.cartsService.cart = new CartModel());
+        },
+        (serverErrorResponse) => {
+          this.error = serverErrorResponse.error.error;
+        }
+      );
+    }
     if (!this.amountOfOrders) {
       const observable = this.shopStateService.getState();
 
+
       observable.subscribe(
         (shopState) => {
-          console.log(shopState);
-
           shopState = shopState.map((item: number) => Object.values(item)[0]);
           this.amountOfProducts = shopState[0];
           this.amountOfOrders = shopState[1];
         },
-        (serverErrorResponse) => alert(serverErrorResponse.error.error)
+        (serverErrorResponse) => {
+          this.error = serverErrorResponse.error.error;
+        }
       );
     }
   }

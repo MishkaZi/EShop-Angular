@@ -11,6 +11,10 @@ import { ShopStateService } from 'src/app/services/shop-state.service';
 })
 export class CategoriesComponent implements OnInit {
   public categories: CategoryModel[];
+
+  public error: string = '';
+
+
   constructor(
     public productsService: ProductsService,
     public categoriesService: CategoriesService,
@@ -24,7 +28,9 @@ export class CategoriesComponent implements OnInit {
       (allCategories) => {
         this.categories = allCategories;
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
@@ -38,8 +44,8 @@ export class CategoriesComponent implements OnInit {
       (productsList) => {
         this.productsService.products = productsList;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
       }
     );
   }
@@ -51,8 +57,8 @@ export class CategoriesComponent implements OnInit {
       (productsList) => {
         this.productsService.products = productsList;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
       }
     );
   }

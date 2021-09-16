@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light ">
   <div class="container-fluid">
+    <app-error [error]="error" *ngIf="error!==''"></app-error>
     <button class="navbar btn btn-info" (click)="showHideCart()"> <span *ngIf="this.shopStateService.cartShowHide"><i
           class="bi bi-arrow-bar-left"></i><b> Close cart </b></span><span
         *ngIf="!this.shopStateService.cartShowHide"><i class="bi bi-arrow-bar-right"></i><b> Open cart</b>

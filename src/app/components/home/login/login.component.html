@@ -1,17 +1,34 @@
-<form *ngIf="!this.shopStateService.isLoggedIn">
-  <!-- *ngIf="!loginForm.focused" -->
+<form *ngIf="!this.shopStateService.isLoggedIn" #loginForm="ngForm" [formGroup]="userDetails">
+
   <app-error [error]="error" *ngIf="error!==''"></app-error>
-  <div class="mb-3">
-    <input class="form-control" type="text" placeholder="Email..." name="username" [(ngModel)]="userDetails.email"><br>
+
+
+  <input type="email" placeholder="Enter your email" class="form-control w-auto mb-3" [formControl]="email" />
+  <div *ngIf="(email.dirty || email.touched) &&email.invalid" class="alert alert-info" role="alert">
+    <p *ngIf="email.errors?.required">
+      Email is required!
+    </p>
+    <p *ngIf="email.errors?.pattern">
+      Emails should be email format!
+    </p>
   </div>
-  <div class="mb-3">
-    <input class="form-control" type="password" placeholder="Password..." autocomplete="on" name="password"
-      [(ngModel)]="userDetails.password"><br>
+
+  <input type="password" placeholder="Enter a password" class="form-control w-auto mb-3" [formControl]="password" />
+  <div *ngIf="(password.dirty || password.touched) && password.invalid" class="alert alert-info" role="alert">
+    <p *ngIf="password.errors?.required">
+      Password is required!
+    </p>
+    <p *ngIf="!password.errors?.minLength || !password.errors?.maxLength">
+      Passwords should be 8-12 characters long!
+    </p>
   </div>
+
+
+
   <div class="mb-3">
     <div class="row">
       <div class="col">
-        <input [disabled]="userDetails.email===''|| userDetails.password=== undefined" autocomplete="on"
+        <input [disabled]="loginForm.invalid" autocomplete="on"
           class="btn btn-primary" type="button" (click)="login()" value="Login" />
       </div>
       <div class="col">

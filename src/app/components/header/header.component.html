@@ -1,4 +1,5 @@
 <div class="layout">
+    <app-error [error]="error" *ngIf="error!==''"></app-error>
     <div class="d-flex justify-content-between align-items-center row">
         <!-- Logo -->
         <img class="col-4" src="../../../assets/favpng_shopping-cart-e-commerce-online-shopping-logo.png" alt="logo">
@@ -9,7 +10,8 @@
                     {{this.usersService.userFirstName | titlecase}}</span> <span
                     *ngIf="!this.usersService.userFirstName">guest</span> !</h3>
             <!-- Search -->
-            <form *ngIf="router.url !== '/home' && router.url !== '/register'&& router.url !== '/register2'"
+            <form
+                *ngIf="router.url !== '/home' && router.url !== '/register'&& router.url !== '/register2' && !this.shopStateService.orderPressed"
                 class="search-wrapper" (submit)="searchProduct()">
                 <div class="input-group">
                     <input [(ngModel)]="searchInput" class="search-input form-control" type="text" name="search"

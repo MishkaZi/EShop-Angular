@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartModel } from 'src/app/models/CartModel';
 import { SuccessfulLoginServerResponse } from 'src/app/models/SuccessfulLoginServerResponse';
@@ -13,14 +14,30 @@ import { ShopStateService } from '../../../services/shop-state.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  userDetails: UserModel = new UserModel(0, '');
+  public userDetails!: FormGroup;
+  public email!: FormControl;
+  public password!: FormControl;
+
   public error: string = '';
+  
   constructor(
     private usersService: UsersService,
     private router: Router,
     public shopStateService: ShopStateService,
     public cartsService: CartsService
-  ) {}
+  ) {
+    this.email = new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+    ]);
+
+    this.password = new FormControl('', [
+      Validators.minLength(8),
+      Validators.maxLength(12),
+      Validators.required,
+    ]);
+    this.userDetails = new FormGroup({ email: this.email, password: this.password });
+  }
 
   ngOnInit(): void {
     if (!this.shopStateService.isLoggedIn) {
@@ -37,7 +54,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(userId?: number): void {
-    const loginObservable = this.usersService.login(this.userDetails, userId);
+    const loginObservable = this.usersService.login(this.userDetails.value, userId);
     loginObservable.subscribe(
       (successfulServerRequestData: SuccessfulLoginServerResponse) => {
         this.usersService.isAdmin = successfulServerRequestData.isAdmin;
@@ -87,14 +104,14 @@ export class LoginComponent implements OnInit {
 
     observable.subscribe(
       (cart) => {
-        console.log(cart);
+
 
         cart
           ? (this.cartsService.cart = cart)
           : (this.cartsService.cart = new CartModel());
       },
       (serverErrorResponse) => {
-        alert(serverErrorResponse.error.error);
+        this.error = serverErrorResponse.error.error;
       }
     );
   }

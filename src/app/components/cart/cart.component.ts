@@ -13,6 +13,9 @@ import { UsersService } from 'src/app/services/users.service';
 export class CartComponent implements OnInit {
   public searchInput: string;
 
+  public error: string = '';
+
+
   constructor(
     public shopStateService: ShopStateService,
     public cartsService: CartsService,
@@ -51,7 +54,9 @@ export class CartComponent implements OnInit {
           this.getCartItems();
         }
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
@@ -65,7 +70,9 @@ export class CartComponent implements OnInit {
           (product) => (this.cartsService.total += product.totalPrice)
         );
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
@@ -75,7 +82,9 @@ export class CartComponent implements OnInit {
 
     observable.subscribe(
       (cart) => (this.cartsService.cart = cart),
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
@@ -91,33 +100,11 @@ export class CartComponent implements OnInit {
         this.cartsService.cartItems = [];
         this.cartsService.total = 0;
       },
-      (serverErrorResponse) => alert(serverErrorResponse.error.error)
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
-
-  // public moveToOrder(): void {
-  //   this.stateService.showSuccessCover = true;
-
-  //   setTimeout(() => {
-  //     this.stateService.showSuccessCover = false;
-  //     this.stateService.isOrdering = true;
-  //     this.stateService.isAsidePanelOpen = false;
-
-  //     this.router.navigate(["/customers/order"]);
-  //   }, 700)
-  // }
-
-  // public backShopping(): void {
-  //   // Reset
-  //   this.searchInput = '';
-  //   this.stateService.isOrdering = false;
-  //   this.router.navigate(["/customers/products"]);
-
-  //   // Resize cart
-  //   this.stateService.isMobileScreen
-  //     ? this.stateService.isAsidePanelOpen = false
-  //     : this.stateService.isAsidePanelOpen = true;
-  // }
 
   public searchInCart(): void {
     let cartItems = this.cartsService.cartItems;
