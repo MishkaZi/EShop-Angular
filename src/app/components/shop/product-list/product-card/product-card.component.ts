@@ -16,6 +16,8 @@ export class ProductCardComponent implements OnInit {
   public productToAdd: ProductModel;
   public error: string = '';
 
+  public imagePath = "http://localhost:3010/uploads/";
+
   constructor(
     public cartsService: CartsService,
     public usersService: UsersService,
@@ -23,7 +25,9 @@ export class ProductCardComponent implements OnInit {
     public shopStateService: ShopStateService
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.imagePath = this.imagePath + this.product.image;
+  }
 
   public addToCart() {
     if (this.amount < 0) {
@@ -51,6 +55,7 @@ export class ProductCardComponent implements OnInit {
         image: this.product.image,
         productName: this.product.productName,
       };
+
       let observable = this.cartsService.addToCart(productToAdd);
 
       observable.subscribe(
@@ -80,6 +85,8 @@ export class ProductCardComponent implements OnInit {
         image: this.product.image,
         productName: this.product.productName,
       };
+      console.log(JSON.stringify(productToAdd));
+
       let observable = this.cartsService.updateOnCart(productToAdd);
 
       observable.subscribe(

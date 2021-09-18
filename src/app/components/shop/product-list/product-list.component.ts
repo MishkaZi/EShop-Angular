@@ -32,21 +32,16 @@ export class ProductListComponent implements OnInit {
 
   public updateProduct(product: ProductModel) {
     if (this.userService.isAdmin) {
-      console.log(product);
       this.shopStateService.productToUpdate = product;
       if (this.shopStateService.updateClicked === true && this.shopStateService.productToUpdate === undefined) {
-
-        console.log('inside');
 
         this.shopStateService.productToUpdate = product;
         this.shopStateService.updateClicked = false;
         this.shopStateService.showAdd = false;
       }
       else {
-        console.log('inside2');
-
         this.shopStateService.updateClicked = true;
-        this.router.navigateByUrl('/admin', { skipLocationChange: true });
+        window.history.back();
 
       }
     }

@@ -33,8 +33,10 @@
       </p>
     </div>
 
+    <!-- (change)="checkPasswords()" -->
     <input type="password" placeholder="Confirm your password" class="form-control w-auto mb-3"
-      [formControl]="confirmPassword" (change)="checkPasswords()"/>
+      [formControl]="confirmPassword" [ngModel]="confirm" (ngModelChange)="checkPasswords($event)"/>
+
     <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && (confirmPassword.invalid && !passwordsMatch)"
       class="alert alert-info" role="alert">
       <p *ngIf="confirmPassword.errors?.required ">
@@ -56,7 +58,7 @@
 
     <div class="row container">
 
-      <button class="btn btn-primary w-auto mb-3" [disabled]="loginForm.form.invalid && !passwordsMatch"
+      <button class="btn btn-primary w-auto mb-3" [disabled]="loginForm.form.invalid || !passwordsMatch"
         (click)="firstStageRegister()">
         Next
       </button>

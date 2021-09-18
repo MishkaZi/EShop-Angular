@@ -24,6 +24,6 @@ export class ShopStateService {
   }
 
   public getState(): Observable<any> {
-    return this.http.get('https://morning-fjord-26804.herokuapp.com/shop');
+    return this.http.get('http://localhost:3010/shop');
   }
 }

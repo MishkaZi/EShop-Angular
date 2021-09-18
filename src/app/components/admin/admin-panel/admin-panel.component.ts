@@ -23,6 +23,8 @@ export class AdminPanelComponent implements OnInit {
   public categories: CategoryModel[];
 
   public error: string = '';
+  public file!: File;
+  public formData: FormData = new FormData();
 
 
   constructor(
@@ -42,7 +44,7 @@ export class AdminPanelComponent implements OnInit {
     this.category = new FormControl(
       this.shopStateService.updateClicked
         ? this.shopStateService.productToUpdate.categoryName
-        : '',
+        : 'phones',
       [Validators.required]
     );
     this.price = new FormControl(
@@ -51,10 +53,7 @@ export class AdminPanelComponent implements OnInit {
         : '',
       [Validators.required, Validators.min(1)]
     );
-    this.image = new FormControl(
-      this.shopStateService.updateClicked
-        ? this.shopStateService.productToUpdate.image
-        : '',
+    this.image = new FormControl('',
       [Validators.required]
     );
 
@@ -80,7 +79,8 @@ export class AdminPanelComponent implements OnInit {
   }
 
   public showAddProduct() {
-    this.shopStateService.productToUpdate={};
+    window.history.back();
+    this.shopStateService.productToUpdate = {};
     if (this.shopStateService.updateClicked === true) {
       this.shopStateService.updateClicked = false;
     }
@@ -92,22 +92,30 @@ export class AdminPanelComponent implements OnInit {
   }
 
   public addProductFunc() {
+
     const category = this.categories.find(
       (category: CategoryModel) =>
         category.categoryName === this.addProduct.value.categoryName.toLowerCase()
     ) as CategoryModel;
 
 
-    const productToSend = {
-      productName: this.addProduct.value.productName,
-      price: this.addProduct.value.price,
-      image: this.addProduct.value.image,
-      categoryId: category.id,
+    // const productToSend = {
+    //   productName: this.addProduct.value.productName,
+    //   price: this.addProduct.value.price,
+    //   image: this.file,
+    //   categoryId: category.id,
+    // }
 
-    }
+    // console.log(productToSend);
+    this.formData.append("productImage", this.file, this.file.name)
+
+    this.formData.append("productName", this.addProduct.value.productName);
+    this.formData.append("categoryId", category.id.toString());
+    this.formData.append("price", this.addProduct.value.price);
 
 
-    const observable = this.productsService.addProduct(productToSend);
+
+    const observable = this.productsService.addProduct(this.formData);
     observable.subscribe(
       () => {
         let observable = this.productsService.getProducts();
@@ -125,6 +133,12 @@ export class AdminPanelComponent implements OnInit {
     );
   }
 
+  uploadFile(e: any) {
+    this.file = e.target.files[0];
+    console.log(this.image);
+
+  }
+
   public updateProductFunc() {
     const category = this.categories.find(
       (category: CategoryModel) =>
@@ -132,16 +146,22 @@ export class AdminPanelComponent implements OnInit {
     ) as CategoryModel;
 
 
-    const productToSend = {
-      id: this.shopStateService.productToUpdate.id,
-      productName: this.addProduct.value.productName,
-      price: this.addProduct.value.price,
-      image: this.addProduct.value.image,
-      categoryId: category.id,
+    // const productToSend = {
+    //   id: this.shopStateService.productToUpdate.id,
+    //   productName: this.addProduct.value.productName,
+    //   price: this.addProduct.value.price,
+    //   image: this.addProduct.value.image,
+    //   categoryId: category.id,
 
-    }
+    // }
+    this.formData.append("id", this.shopStateService.productToUpdate.id.toString());
+    this.formData.append("productImage", this.file, this.file.name)
 
-    const observable = this.productsService.updateProduct(productToSend);
+    this.formData.append("productName", this.addProduct.value.productName);
+    this.formData.append("categoryId", category.id.toString());
+    this.formData.append("price", this.addProduct.value.price);
+
+    const observable = this.productsService.updateProduct(this.formData);
     observable.subscribe(
       () => {
         let observable = this.productsService.getProducts();

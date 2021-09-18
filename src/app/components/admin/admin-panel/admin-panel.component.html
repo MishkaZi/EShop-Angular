@@ -6,7 +6,8 @@
       *ngIf="this.shopStateService.showAdd || (this.shopStateService.updateClicked&&this.shopStateService.productToUpdate!==undefined)">
 
       <label>Image:</label>
-      <input type="text" class="form-control" [formControl]="image" value="{{this.image}}">
+      <!-- <input type="text" class="form-control" [formControl]="image" value="{{this.image}}"> -->
+      <input type="file" class="form-control" [formControl]="image" (change)="uploadFile($event)"/>
 
       <label>Product Name:</label>
       <input type="text" class="form-control" [formControl]="productName" />

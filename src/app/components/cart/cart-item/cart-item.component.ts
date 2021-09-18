@@ -35,6 +35,7 @@ export class CartItemComponent implements OnInit {
 
         observable.subscribe(
           (cartItems) => {
+            
             this.cartsService.cartItems = cartItems;
             this.cartsService.total =
               this.cartsService.total - product.totalPrice;

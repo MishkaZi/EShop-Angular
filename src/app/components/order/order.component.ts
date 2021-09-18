@@ -109,6 +109,8 @@ export class OrderComponent implements OnInit {
     };
 
     this.orderDetails = order;
+    console.log(order);
+    
 
     let observable = this.ordersService.order(order);
     console.log(observable);

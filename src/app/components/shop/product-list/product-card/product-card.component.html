@@ -1,5 +1,5 @@
 <div class="card">
-  <img src={{product.image}} class=" card-img-top ">
+  <img src={{imagePath}} class=" card-img-top ">
   <div class="card-body ">
     <app-error [error]="error" *ngIf="error!==''"></app-error>
     <h3 class="card-title ">{{product.productName | titlecase}}</h3>

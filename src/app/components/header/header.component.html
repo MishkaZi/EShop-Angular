@@ -2,7 +2,7 @@
     <app-error [error]="error" *ngIf="error!==''"></app-error>
     <div class="d-flex justify-content-between align-items-center row">
         <!-- Logo -->
-        <img class="col-4" src="../../../assets/favpng_shopping-cart-e-commerce-online-shopping-logo.png" alt="logo">
+        <img class="col-4 logo" src="../../../assets/favpng_shopping-cart-e-commerce-online-shopping-logo.png" [routerLink]="['/home']" routerLinkActive="router-link-active"  alt="logo">
 
         <!-- Greeting -->
         <div class="greeting col-4">

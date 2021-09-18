@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   public firstStepRegister: FormGroup;
   public passwords: FormGroup;
   public passwordsMatch: boolean = false;
+  public confirm: string = '';
 
   public activatedRoute: ActivatedRoute;
 
@@ -66,8 +67,8 @@ export class RegisterComponent implements OnInit {
     this.usersService.firstStepRegisterCompleted = false;
   }
 
-  public checkPasswords() {
-    if (this.password.value === this.confirmPassword.value) {
+  public checkPasswords(event) {
+    if (this.password.value === event) {
       this.passwordsMatch = true;
     }
     else {

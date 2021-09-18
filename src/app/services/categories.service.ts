@@ -13,7 +13,7 @@ export class CategoriesService {
 
   getCategories(): Observable<CategoryModel[]> {
     return this.http.get<CategoryModel[]>(
-      'https://morning-fjord-26804.herokuapp.com/categories'
+      'http://localhost:3010/categories'
     );
   }
 }

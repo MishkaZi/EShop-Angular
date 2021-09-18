@@ -14,14 +14,14 @@ export class OrdersService {
     orderDetails: OrderDetailsModel
   ): Observable<SuccessfulLoginServerResponse> {
     return this.http.post<SuccessfulLoginServerResponse>(
-      'https://morning-fjord-26804.herokuapp.com/orders/',
+      'http://localhost:3010/orders/',
       orderDetails
     );
   }
 
   public getShippingDates(): Observable<any[]> {
     return this.http.get<any[]>(
-      'https://morning-fjord-26804.herokuapp.com/orders'
+      'http://localhost:3010/orders'
     );
   }
 }
