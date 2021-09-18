@@ -13,6 +13,7 @@ import { UsersService } from 'src/app/services/users.service';
 export class RegisterComponent implements OnInit {
   public firstStepRegister: FormGroup;
   public passwords: FormGroup;
+  public passwordsMatch: boolean = false;
 
   public activatedRoute: ActivatedRoute;
 
@@ -65,6 +66,16 @@ export class RegisterComponent implements OnInit {
     this.usersService.firstStepRegisterCompleted = false;
   }
 
+  public checkPasswords() {
+    if (this.password.value === this.confirmPassword.value) {
+      this.passwordsMatch = true;
+    }
+    else {
+      this.passwordsMatch = false;
+
+    }
+  }
+
   public firstStageRegister(): void {
     let observable = this.usersService.firstStepRegister(
       this.firstStepRegister.value
@@ -75,7 +86,6 @@ export class RegisterComponent implements OnInit {
         this.error = '';
         this.usersService.firstStepRegisterCompleted = true;
         this.usersService.firstStageUserDetails = this.firstStepRegister.value;
-        console.log(this.usersService.firstStageUserDetails);
 
         this.router.navigate(['/register/register2'], {
           relativeTo: this.activatedRoute,

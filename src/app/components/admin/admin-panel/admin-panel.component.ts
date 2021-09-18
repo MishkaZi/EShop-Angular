@@ -1,4 +1,3 @@
-import { LowerCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoryModel } from 'src/app/models/CategoryModel';
@@ -14,7 +13,6 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./admin-panel.component.css'],
 })
 export class AdminPanelComponent implements OnInit {
-  public showAdd: boolean = false;
 
   public addProduct!: FormGroup;
   public image!: FormControl;
@@ -22,7 +20,6 @@ export class AdminPanelComponent implements OnInit {
   public category!: FormControl;
   public price!: FormControl;
 
-  public formData: FormData = new FormData();
   public categories: CategoryModel[];
 
   public error: string = '';
@@ -33,6 +30,8 @@ export class AdminPanelComponent implements OnInit {
     public categoriesService: CategoriesService,
     public shopStateService: ShopStateService,
     public usersService: UsersService
+
+
   ) {
     this.productName = new FormControl(
       this.shopStateService.updateClicked
@@ -42,7 +41,7 @@ export class AdminPanelComponent implements OnInit {
     );
     this.category = new FormControl(
       this.shopStateService.updateClicked
-        ? this.shopStateService.productToUpdate.categoryId
+        ? this.shopStateService.productToUpdate.categoryName
         : '',
       [Validators.required]
     );
@@ -61,10 +60,11 @@ export class AdminPanelComponent implements OnInit {
 
     this.addProduct = new FormGroup({
       productName: this.productName,
-      categoryId: this.category,
+      categoryName: this.category,
       price: this.price,
       image: this.image,
     });
+
   }
 
   ngOnInit(): void {
@@ -76,28 +76,38 @@ export class AdminPanelComponent implements OnInit {
       },
       (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
     );
+
   }
 
   public showAddProduct() {
+    this.shopStateService.productToUpdate={};
     if (this.shopStateService.updateClicked === true) {
       this.shopStateService.updateClicked = false;
     }
-    if (this.showAdd === true) {
-      this.showAdd = false;
+    if (this.shopStateService.showAdd === true) {
+      this.shopStateService.showAdd = false;
     } else {
-      this.showAdd = true;
+      this.shopStateService.showAdd = true;
     }
   }
 
   public addProductFunc() {
     const category = this.categories.find(
       (category: CategoryModel) =>
-        category.categoryName === this.addProduct.value.categoryId.toLowerCase()
+        category.categoryName === this.addProduct.value.categoryName.toLowerCase()
     ) as CategoryModel;
-    this.addProduct.value.categoryId = category.id;
-    console.log(this.addProduct.value);
 
-    const observable = this.productsService.addProduct(this.addProduct.value);
+
+    const productToSend = {
+      productName: this.addProduct.value.productName,
+      price: this.addProduct.value.price,
+      image: this.addProduct.value.image,
+      categoryId: category.id,
+
+    }
+
+
+    const observable = this.productsService.addProduct(productToSend);
     observable.subscribe(
       () => {
         let observable = this.productsService.getProducts();
@@ -109,7 +119,7 @@ export class AdminPanelComponent implements OnInit {
           (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
         );
 
-        this.showAdd = false;
+        this.shopStateService.showAdd = false;
       },
       (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
     );
@@ -118,13 +128,18 @@ export class AdminPanelComponent implements OnInit {
   public updateProductFunc() {
     const category = this.categories.find(
       (category: CategoryModel) =>
-        category.categoryName === this.addProduct.value.categoryId.toLowerCase()
+        category.categoryName === this.addProduct.value.categoryName.toLowerCase()
     ) as CategoryModel;
-    this.addProduct.value.categoryId = category.id;
-    const productToSend: ProductModel = { ...this.addProduct.value };
-    Object.assign(productToSend, {
+
+
+    const productToSend = {
       id: this.shopStateService.productToUpdate.id,
-    });
+      productName: this.addProduct.value.productName,
+      price: this.addProduct.value.price,
+      image: this.addProduct.value.image,
+      categoryId: category.id,
+
+    }
 
     const observable = this.productsService.updateProduct(productToSend);
     observable.subscribe(

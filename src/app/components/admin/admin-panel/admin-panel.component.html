@@ -2,7 +2,8 @@
   <div class="panel">
     <app-error [error]="error" *ngIf="error!==''"></app-error>
     <!-- Add product -->
-    <form #productAdd="ngForm" [formGroup]="addProduct" *ngIf="this.showAdd || this.shopStateService.updateClicked">
+    <form #productAdd="ngForm" [formGroup]="addProduct"
+      *ngIf="this.shopStateService.showAdd || (this.shopStateService.updateClicked&&this.shopStateService.productToUpdate!==undefined)">
 
       <label>Image:</label>
       <input type="text" class="form-control" [formControl]="image" value="{{this.image}}">
@@ -33,8 +34,8 @@
     <div class="total-price d-flex">
     </div>
     <div class="buttons">
-      <button class="btn btn-primary" (click)="showAddProduct()"><span *ngIf="this.showAdd">Close Add
-          Product</span><span *ngIf="!this.showAdd"> Add Product</span></button>
+      <button class="btn btn-primary" (click)="showAddProduct()"><span *ngIf="this.shopStateService.showAdd">Close Add
+          Product</span><span *ngIf="!this.shopStateService.showAdd"> Add Product</span></button>
     </div>
   </div>
 </div>

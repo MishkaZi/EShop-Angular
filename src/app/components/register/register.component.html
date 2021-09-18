@@ -34,23 +34,30 @@
     </div>
 
     <input type="password" placeholder="Confirm your password" class="form-control w-auto mb-3"
-      [formControl]="confirmPassword" />
-    <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.invalid" class="alert alert-info"
-      role="alert">
+      [formControl]="confirmPassword" (change)="checkPasswords()"/>
+    <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && (confirmPassword.invalid && !passwordsMatch)"
+      class="alert alert-info" role="alert">
       <p *ngIf="confirmPassword.errors?.required ">
         Password confirmation is required!
       </p>
       <p *ngIf="!password.errors?.minLength || !password.errors?.maxLength">
         Password confirmation should be 8-12 characters long!
       </p>
-      <p *ngIf="confirmPassword !== password ">
+
+    </div>
+    <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && !passwordsMatch" class="alert alert-info"
+      role="alert">
+
+      <p *ngIf="!passwordsMatch ">
         Passwords dont match!
       </p>
+
     </div>
 
     <div class="row container">
 
-      <button class="btn btn-primary w-auto mb-3" [disabled]="loginForm.form.invalid" (click)="firstStageRegister()">
+      <button class="btn btn-primary w-auto mb-3" [disabled]="loginForm.form.invalid && !passwordsMatch"
+        (click)="firstStageRegister()">
         Next
       </button>
       <button class="btn btn-warning w-auto mb-3 ms-3" routerLink="/home">

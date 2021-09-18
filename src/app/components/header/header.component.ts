@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit {
         this.usersService.userFirstName = '';
         this.usersService.userDetails = {};
         this.shopStateService.orderPressed = false;
+        this.shopStateService.productToUpdate={};
 
         localStorage.clear();
         this.router.navigate(['/home']);

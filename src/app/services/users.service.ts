@@ -61,14 +61,14 @@ export class UsersService {
 
   public firstStepRegister(firstStepUserDetails: UserModel): Observable<void> {
     return this.http.post<void>(
-      'https://morning-fjord-26804.herokuapp.com/users/',
+      'https://morning-fjord-26804.herokuapp.com/users/register',
       firstStepUserDetails
     );
   }
 
   public register(secondStepUserDetails: UserModel): Observable<void> {
     return this.http.post<void>(
-      'https://morning-fjord-26804.herokuapp.com/users/register',
+      'https://morning-fjord-26804.herokuapp.com/users/register2',
       secondStepUserDetails
     );
   }

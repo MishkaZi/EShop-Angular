@@ -11,6 +11,7 @@ export class ShopStateService {
 
   public productToUpdate: ProductModel;
   public updateClicked: boolean = false;
+  public showAdd: boolean = false;
 
   public orderPressed: boolean = false;
 
