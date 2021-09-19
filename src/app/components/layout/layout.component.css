@@ -4,11 +4,9 @@ header {
 }
 
 main {
-  border: 1px solid black;
   height: 88%;
-
 }
 
-.layout{
+.layout {
   height: 100vh;
 }

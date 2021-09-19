@@ -13,7 +13,6 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./admin-panel.component.css'],
 })
 export class AdminPanelComponent implements OnInit {
-
   public addProduct!: FormGroup;
   public image!: FormControl;
   public productName!: FormControl;
@@ -26,14 +25,11 @@ export class AdminPanelComponent implements OnInit {
   public file!: File;
   public formData: FormData = new FormData();
 
-
   constructor(
     public productsService: ProductsService,
     public categoriesService: CategoriesService,
     public shopStateService: ShopStateService,
     public usersService: UsersService
-
-
   ) {
     this.productName = new FormControl(
       this.shopStateService.updateClicked
@@ -53,9 +49,7 @@ export class AdminPanelComponent implements OnInit {
         : '',
       [Validators.required, Validators.min(1)]
     );
-    this.image = new FormControl('',
-      [Validators.required]
-    );
+    this.image = new FormControl('', [Validators.required]);
 
     this.addProduct = new FormGroup({
       productName: this.productName,
@@ -63,7 +57,6 @@ export class AdminPanelComponent implements OnInit {
       price: this.price,
       image: this.image,
     });
-
   }
 
   ngOnInit(): void {
@@ -73,9 +66,10 @@ export class AdminPanelComponent implements OnInit {
       (allCategories) => {
         this.categories = allCategories;
       },
-      (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
-
   }
 
   public showAddProduct() {
@@ -92,28 +86,17 @@ export class AdminPanelComponent implements OnInit {
   }
 
   public addProductFunc() {
-
     const category = this.categories.find(
       (category: CategoryModel) =>
-        category.categoryName === this.addProduct.value.categoryName.toLowerCase()
+        category.categoryName ===
+        this.addProduct.value.categoryName.toLowerCase()
     ) as CategoryModel;
 
+    this.formData.append('productImage', this.file, this.file.name);
 
-    // const productToSend = {
-    //   productName: this.addProduct.value.productName,
-    //   price: this.addProduct.value.price,
-    //   image: this.file,
-    //   categoryId: category.id,
-    // }
-
-    // console.log(productToSend);
-    this.formData.append("productImage", this.file, this.file.name)
-
-    this.formData.append("productName", this.addProduct.value.productName);
-    this.formData.append("categoryId", category.id.toString());
-    this.formData.append("price", this.addProduct.value.price);
-
-
+    this.formData.append('productName', this.addProduct.value.productName);
+    this.formData.append('categoryId', category.id.toString());
+    this.formData.append('price', this.addProduct.value.price);
 
     const observable = this.productsService.addProduct(this.formData);
     observable.subscribe(
@@ -124,42 +107,39 @@ export class AdminPanelComponent implements OnInit {
           (productsList) => {
             this.productsService.products = productsList;
           },
-          (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
+          (serverErrorResponse) => {
+            this.error = serverErrorResponse.error.error;
+          }
         );
 
         this.shopStateService.showAdd = false;
       },
-      (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 
   uploadFile(e: any) {
     this.file = e.target.files[0];
-    console.log(this.image);
-
   }
 
   public updateProductFunc() {
     const category = this.categories.find(
       (category: CategoryModel) =>
-        category.categoryName === this.addProduct.value.categoryName.toLowerCase()
+        category.categoryName ===
+        this.addProduct.value.categoryName.toLowerCase()
     ) as CategoryModel;
 
+    this.formData.append(
+      'id',
+      this.shopStateService.productToUpdate.id.toString()
+    );
+    this.formData.append('productImage', this.file, this.file.name);
 
-    // const productToSend = {
-    //   id: this.shopStateService.productToUpdate.id,
-    //   productName: this.addProduct.value.productName,
-    //   price: this.addProduct.value.price,
-    //   image: this.addProduct.value.image,
-    //   categoryId: category.id,
-
-    // }
-    this.formData.append("id", this.shopStateService.productToUpdate.id.toString());
-    this.formData.append("productImage", this.file, this.file.name)
-
-    this.formData.append("productName", this.addProduct.value.productName);
-    this.formData.append("categoryId", category.id.toString());
-    this.formData.append("price", this.addProduct.value.price);
+    this.formData.append('productName', this.addProduct.value.productName);
+    this.formData.append('categoryId', category.id.toString());
+    this.formData.append('price', this.addProduct.value.price);
 
     const observable = this.productsService.updateProduct(this.formData);
     observable.subscribe(
@@ -170,12 +150,16 @@ export class AdminPanelComponent implements OnInit {
           (productsList) => {
             this.productsService.products = productsList;
           },
-          (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
+          (serverErrorResponse) => {
+            this.error = serverErrorResponse.error.error;
+          }
         );
 
         this.shopStateService.updateClicked = false;
       },
-      (serverErrorResponse) => { this.error = serverErrorResponse.error.error }
+      (serverErrorResponse) => {
+        this.error = serverErrorResponse.error.error;
+      }
     );
   }
 }

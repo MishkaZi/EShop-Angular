@@ -13,7 +13,7 @@ export class ProductsService {
 
   public getProducts(): Observable<ProductModel[]> {
     return this.http.get<ProductModel[]>(
-      'http://localhost:3010/products'
+      'https://morning-fjord-26804.herokuapp.com/products'
     );
   }
 
@@ -21,27 +21,27 @@ export class ProductsService {
     productsCategory?: number
   ): Observable<ProductModel[]> {
     return this.http.get<ProductModel[]>(
-      'http://localhost:3010/categories/' + productsCategory
+      'https://morning-fjord-26804.herokuapp.com/categories/' + productsCategory
     );
   }
 
-  public addProduct(product:any) {
+  public addProduct(product: any) {
     return this.http.post<ProductModel>(
-      'http://localhost:3010/products',
+      'https://morning-fjord-26804.herokuapp.com/products',
       product
     );
   }
 
   public updateProduct(product: any) {
     return this.http.put<ProductModel>(
-      'http://localhost:3010/products',
+      'https://morning-fjord-26804.herokuapp.com/products',
       product
     );
   }
 
   searchProduct(searchInput: string): Observable<ProductModel[]> {
     return this.http.get<ProductModel[]>(
-      'http://localhost:3010/products/search/' + searchInput
+      'https://morning-fjord-26804.herokuapp.com/products/search/' + searchInput
     );
   }
 }

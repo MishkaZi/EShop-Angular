@@ -16,14 +16,14 @@ export class ProductCardComponent implements OnInit {
   public productToAdd: ProductModel;
   public error: string = '';
 
-  public imagePath = "http://localhost:3010/uploads/";
+  public imagePath = 'https://morning-fjord-26804.herokuapp.com/uploads/';
 
   constructor(
     public cartsService: CartsService,
     public usersService: UsersService,
     public productsService: ProductsService,
     public shopStateService: ShopStateService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.imagePath = this.imagePath + this.product.image;

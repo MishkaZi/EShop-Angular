@@ -1,9 +1,9 @@
-runtime: nodejs16
+runtime: python27
 api_version: 1
 threadsafe: true
 
 handlers:
-  - url: /
+  - url: /.*
     static_files: dist/EShopClient/index.html
     upload: dist/EShopClient/index.html
 

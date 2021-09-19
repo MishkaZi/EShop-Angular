@@ -46,14 +46,14 @@ export class UsersService {
 
     //Change to /users
     return this.http.post<SuccessfulLoginServerResponse>(
-      'http://localhost:3010/users',
+      'https://morning-fjord-26804.herokuapp.com/users',
       loginDetails
     );
   }
 
   public logout(token: string): Observable<void> {
     return this.http.post<void>(
-      'http://localhost:3010/users/logout',
+      'https://morning-fjord-26804.herokuapp.com/users/logout',
       {
         token,
       }
@@ -62,19 +62,19 @@ export class UsersService {
 
   public firstStepRegister(firstStepUserDetails: UserModel): Observable<void> {
     return this.http.post<void>(
-      'http://localhost:3010/users/register',
+      'https://morning-fjord-26804.herokuapp.com/users/register',
       firstStepUserDetails
     );
   }
 
   public register(secondStepUserDetails: UserModel): Observable<void> {
     return this.http.post<void>(
-      'http://localhost:3010/users/register2',
+      'https://morning-fjord-26804.herokuapp.com/users/register2',
       secondStepUserDetails
     );
   }
 
   public getUserDetails() {
-    return this.http.get('http://localhost:3010/users/');
+    return this.http.get('https://morning-fjord-26804.herokuapp.com/users/');
   }
 }
