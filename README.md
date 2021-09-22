@@ -1,2 +1,2 @@
-Welcome to our tech EShop! Here you can buy Apple and other tech without taxes! 
+Angular app that simulates ecommerce website.
 Server for this client: https://github.com/MishkaZi/EShop-NodeJs
